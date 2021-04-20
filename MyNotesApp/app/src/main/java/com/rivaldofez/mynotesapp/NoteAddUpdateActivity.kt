@@ -2,6 +2,7 @@ package com.rivaldofez.mynotesapp
 
 import android.content.ContentValues
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -11,9 +12,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.rivaldofez.mynotesapp.databinding.ActivityNoteAddUpdateBinding
 import com.rivaldofez.mynotesapp.db.DatabaseContract
+import com.rivaldofez.mynotesapp.db.DatabaseContract.NoteColumns.Companion.CONTENT_URI
 import com.rivaldofez.mynotesapp.db.DatabaseContract.NoteColumns.Companion.DATE
+import com.rivaldofez.mynotesapp.db.DatabaseContract.NoteColumns.Companion.DESCRIPTION
+import com.rivaldofez.mynotesapp.db.DatabaseContract.NoteColumns.Companion.TITLE
 import com.rivaldofez.mynotesapp.db.NoteHelper
 import com.rivaldofez.mynotesapp.entity.Note
+import com.rivaldofez.mynotesapp.helper.MappingHelper
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,6 +29,8 @@ class NoteAddUpdateActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var noteHelper: NoteHelper
 
     private lateinit var binding: ActivityNoteAddUpdateBinding
+
+    private lateinit var uriWithId: Uri
 
     companion object {
         const val EXTRA_NOTE = "extra_note"
@@ -42,8 +49,6 @@ class NoteAddUpdateActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityNoteAddUpdateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        noteHelper = NoteHelper.getInstance(applicationContext)
-        noteHelper.open()
         note = intent.getParcelableExtra(EXTRA_NOTE)
         if (note != null) {
             position = intent.getIntExtra(EXTRA_POSITION, 0)
@@ -51,23 +56,35 @@ class NoteAddUpdateActivity : AppCompatActivity(), View.OnClickListener {
         } else {
             note = Note()
         }
+
         val actionBarTitle: String
         val btnTitle: String
+
         if (isEdit) {
+            // Uri yang di dapatkan disini akan digunakan untuk ambil data dari provider
+            // content://com.rivaldofez.mynotesapp/note/id
+            uriWithId = Uri.parse(CONTENT_URI.toString() + "/" + note?.id)
+            val cursor = contentResolver.query(uriWithId, null, null, null, null)
+            if (cursor != null) {
+                note = MappingHelper.mapCursorToObject(cursor)
+                cursor.close()
+            }
+
             actionBarTitle = "Ubah"
             btnTitle = "Update"
+
             note?.let {
                 binding.edtTitle.setText(it.title)
                 binding.edtDescription.setText(it.description)
             }
+
         } else {
             actionBarTitle = "Tambah"
             btnTitle = "Simpan"
         }
-        supportActionBar?.title = actionBarTitle
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.btnSubmit.text = btnTitle
 
+        supportActionBar?.title = actionBarTitle
+        binding.btnSubmit.text = btnTitle
         binding.btnSubmit.setOnClickListener(this)
     }
 
@@ -75,41 +92,41 @@ class NoteAddUpdateActivity : AppCompatActivity(), View.OnClickListener {
         if (view.id == R.id.btn_submit) {
             val title = binding.edtTitle.text.toString().trim()
             val description = binding.edtDescription.text.toString().trim()
+
+            /*
+            Jika fieldnya masih kosong maka tampilkan error
+             */
             if (title.isEmpty()) {
                 binding.edtTitle.error = "Field can not be blank"
                 return
             }
-            note?.title = title
-            note?.description = description
-            val intent = Intent()
-            intent.putExtra(EXTRA_NOTE, note)
-            intent.putExtra(EXTRA_POSITION, position)
 
+            // Gunakan contentvalues untuk menampung data
             val values = ContentValues()
-            values.put(DatabaseContract.NoteColumns.TITLE, title)
-            values.put(DatabaseContract.NoteColumns.DESCRIPTION, description)
+            values.put(TITLE, title)
+            values.put(DESCRIPTION, description)
+
+            /*
+            Jika merupakan edit setresultnya UPDATE, dan jika bukan maka setresultnya ADD
+             */
             if (isEdit) {
-                val result = noteHelper.update(note?.id.toString(), values).toLong()
-                if (result > 0) {
-                    setResult(RESULT_UPDATE, intent)
-                    finish()
-                } else {
-                    Toast.makeText(this@NoteAddUpdateActivity, "Gagal mengupdate data", Toast.LENGTH_SHORT).show()
-                }
+
+                // Gunakan uriWithId dari intent activity ini
+                // content://com.rivaldofez.mynotesapp/note/id
+                contentResolver.update(uriWithId, values, null, null)
+                Toast.makeText(this, "Satu item berhasil diedit", Toast.LENGTH_SHORT).show()
+                finish()
             } else {
-                note?.date = getCurrentDate()
                 values.put(DATE, getCurrentDate())
-                val result = noteHelper.insert(values)
-                if (result > 0) {
-                    note?.id = result.toInt()
-                    setResult(RESULT_ADD, intent)
-                    finish()
-                } else {
-                    Toast.makeText(this@NoteAddUpdateActivity, "Gagal menambah data", Toast.LENGTH_SHORT).show()
-                }
+                // Gunakan content uri untuk insert
+                // content://com.rivaldofez.mynotesapp/note/
+                contentResolver.insert(CONTENT_URI, values)
+                Toast.makeText(this, "Satu item berhasil disimpan", Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
     }
+
 
     private fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
