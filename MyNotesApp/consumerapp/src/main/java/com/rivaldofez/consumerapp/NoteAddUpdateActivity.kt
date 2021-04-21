@@ -1,7 +1,6 @@
-package com.rivaldofez.mynotesapp
+package com.rivaldofez.consumerapp
 
 import android.content.ContentValues
-import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,14 +9,13 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.rivaldofez.mynotesapp.databinding.ActivityNoteAddUpdateBinding
-import com.rivaldofez.mynotesapp.db.DatabaseContract.NoteColumns.Companion.CONTENT_URI
-import com.rivaldofez.mynotesapp.db.DatabaseContract.NoteColumns.Companion.DATE
-import com.rivaldofez.mynotesapp.db.DatabaseContract.NoteColumns.Companion.DESCRIPTION
-import com.rivaldofez.mynotesapp.db.DatabaseContract.NoteColumns.Companion.TITLE
-import com.rivaldofez.mynotesapp.db.NoteHelper
-import com.rivaldofez.mynotesapp.entity.Note
-import com.rivaldofez.mynotesapp.helper.MappingHelper
+import com.rivaldofez.consumerapp.databinding.ActivityNoteAddUpdateBinding
+import com.rivaldofez.consumerapp.db.DatabaseContract.NoteColumns.Companion.CONTENT_URI
+import com.rivaldofez.consumerapp.db.DatabaseContract.NoteColumns.Companion.DATE
+import com.rivaldofez.consumerapp.db.DatabaseContract.NoteColumns.Companion.DESCRIPTION
+import com.rivaldofez.consumerapp.db.DatabaseContract.NoteColumns.Companion.TITLE
+import com.rivaldofez.consumerapp.entity.Note
+import com.rivaldofez.consumerapp.helper.MappingHelper
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,7 +23,6 @@ class NoteAddUpdateActivity : AppCompatActivity(), View.OnClickListener {
     private var isEdit = false
     private var note: Note? = null
     private var position: Int = 0
-    private lateinit var noteHelper: NoteHelper
 
     private lateinit var binding: ActivityNoteAddUpdateBinding
 
@@ -170,17 +167,18 @@ class NoteAddUpdateActivity : AppCompatActivity(), View.OnClickListener {
             .setPositiveButton("Ya") { _, _ ->
                 if (isDialogClose) {
                     finish()
-                } else {
-                    val result = noteHelper.deleteById(note?.id.toString()).toLong()
-                    if (result > 0) {
-                        val intent = Intent()
-                        intent.putExtra(EXTRA_POSITION, position)
-                        setResult(RESULT_DELETE, intent)
-                        finish()
-                    } else {
-                        Toast.makeText(this@NoteAddUpdateActivity, "Gagal menghapus data", Toast.LENGTH_SHORT).show()
-                    }
                 }
+//                else {
+//                    val result = noteHelper.deleteById(note?.id.toString()).toLong()
+//                    if (result > 0) {
+//                        val intent = Intent()
+//                        intent.putExtra(EXTRA_POSITION, position)
+//                        setResult(RESULT_DELETE, intent)
+//                        finish()
+//                    } else {
+//                        Toast.makeText(this@NoteAddUpdateActivity, "Gagal menghapus data", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
             }
             .setNegativeButton("Tidak") { dialog, _ -> dialog.cancel() }
         val alertDialog = alertDialogBuilder.create()
