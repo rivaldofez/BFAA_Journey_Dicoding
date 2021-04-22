@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="deep_green">#054F4D</color>
+    <color name="green">#96C93D</color>
+    <color name="deep_maroon">#9C1F00</color>
+    <color name="maroon">#ff8e4d</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="teal">#046169</color>
+    <color name="light_gray">#D4D4D4</color>
+</resources>

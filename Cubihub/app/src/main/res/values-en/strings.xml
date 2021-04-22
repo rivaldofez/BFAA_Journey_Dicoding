@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Cubihub</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="followers">Followers</string>
+    <string name="repository">Repository</string>
+    <string name="following">Following</string>
+    <string name="about_me">About Me</string>
+    <string name="profile_name">Rivaldo Fernandes</string>
+    <string name="profile_email">rivaldofez@gmail.com</string>
+    <string name="search_hint">Enter keywords..</string>
+    <string name="option_language">Change Language</string>
+    <string name="nav_user">Users</string>
+    <string name="nav_about">Profile</string>
+    <string name="search_url">https://api.github.com/search/users?q=%1$s</string>
+    <string name="follow_url">"https://api.github.com/users/%1$s/%2$s"</string>
+    <string name="detail_user_url">https://api.github.com/users/%1$s</string>
+    <string name="token">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</string>
+    <string name="nulldata">User doesnt set data</string>
+</resources>

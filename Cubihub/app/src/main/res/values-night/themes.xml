@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Cubihub" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryVariant">@color/deep_green</item>
+        <item name="colorOnPrimary">@color/maroon</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal</item>
+        <item name="colorSecondaryVariant">@color/deep_green</item>
+        <item name="colorOnSecondary">@color/deep_maroon</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.Cubihub.Splash">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="RoundImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/_10sdp</item>
+        <item name="color">@color/white</item>
+    </style>
+</resources>
