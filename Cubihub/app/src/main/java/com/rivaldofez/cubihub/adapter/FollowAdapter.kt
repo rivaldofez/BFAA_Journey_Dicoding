@@ -56,7 +56,7 @@ class FollowAdapter (val context: Context): RecyclerView.Adapter<FollowAdapter.F
         init {
             with(binding){
                 cvUsers.setOnClickListener{
-                    onSelectedListener?.onItemClick(it, follows[layoutPosition])
+                    onSelectedListener.onItemClick(it, follows[layoutPosition])
                 }
             }
         }

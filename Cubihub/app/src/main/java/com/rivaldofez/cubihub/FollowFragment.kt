@@ -16,6 +16,7 @@ import com.rivaldofez.cubihub.databinding.FragmentFollowBinding
 import com.rivaldofez.cubihub.listener.OnItemClickListener
 import com.rivaldofez.cubihub.model.User
 import com.rivaldofez.cubihub.viewmodel.FollowViewModel
+import com.rivaldofez.cubihub.viewmodel.SearchUserViewModel
 
 class FollowFragment() : Fragment() {
     companion object{
@@ -27,7 +28,6 @@ class FollowFragment() : Fragment() {
     val layoutManager = LinearLayoutManager(activity)
     var username:String? = null
     var option:String? = null
-    private lateinit var followAdapter : FollowAdapter
     private lateinit var binding: FragmentFollowBinding
     private lateinit var followerViewModel: FollowViewModel
     private lateinit var followingViewModel: FollowViewModel
@@ -48,53 +48,56 @@ class FollowFragment() : Fragment() {
             option = savedInstanceState.getString(KEY_OPTION)
         }
 
-        followAdapter = FollowAdapter(requireActivity())
-        binding.rvFollowers.layoutManager = layoutManager
-        binding.rvFollowers.adapter = followAdapter
 
-        action()
+
+
 
         if(option!! == DetailPagerAdapter.endFollowers){
-            followerViewModel = ViewModelProvider(activity as AppCompatActivity, ViewModelProvider.NewInstanceFactory()).get(
-                option!!,FollowViewModel::class.java)
-            followerViewModel.setFollowUser(username!!,option!!,context!!)
+            val followerAdapter = FollowAdapter(requireActivity())
+            binding.rvFollowers.layoutManager = layoutManager
+            binding.rvFollowers.adapter = followerAdapter
+            action(followerAdapter)
 
-            followerViewModel.getFollowUser().observe(viewLifecycleOwner, {followItems ->
-                if(followerViewModel.errorState){
-                    showLoading(false)
-                }else{
-                    if(followItems != null && followItems.size!=0){
-                        showLoading(true)
-                        followAdapter.setFollows(followItems)
-                        showLoading(false)
-                    }else{
-                        showLoading(false)
-                    }
-                }
+            followerViewModel = ViewModelProvider(requireActivity() as AppCompatActivity,ViewModelProvider.NewInstanceFactory()).get(FollowViewModel::class.java)
+            followerViewModel.initializeModel(requireContext())
+            username?.let { username -> option?.let { option -> followerViewModel.loadFollowUser(username, option) } }
+
+            followerViewModel.listFollowsUser.observe(viewLifecycleOwner,{
+                followerAdapter.setFollows(it)
+            })
+
+            followerViewModel.showProgress.observe(viewLifecycleOwner,{
+                if (it)
+                    binding.progressBar.visibility = View.VISIBLE
+                else
+                    binding.progressBar.visibility = View.GONE
             })
         }else{
-            followingViewModel = ViewModelProvider(activity as AppCompatActivity, ViewModelProvider.NewInstanceFactory()).get(
-                option!!,FollowViewModel::class.java)
-            followingViewModel.setFollowUser(username!!,option!!,context!!)
+            val followingAdapter = FollowAdapter(requireActivity())
+            binding.rvFollowers.layoutManager = layoutManager
+            binding.rvFollowers.adapter = followingAdapter
 
-            followingViewModel.getFollowUser().observe(viewLifecycleOwner, {followItems ->
-                if(followingViewModel.errorState){
-                    showLoading(false)
-                }else{
-                    if(followItems != null && followItems.size!=0){
-                        showLoading(true)
-                        followAdapter.setFollows(followItems)
-                        showLoading(false)
-                    }else{
-                        showLoading(false)
-                    }
-                }
+            action(followingAdapter)
+            followingViewModel = ViewModelProvider(requireActivity() as AppCompatActivity,ViewModelProvider.NewInstanceFactory()).get(FollowViewModel::class.java)
+            followingViewModel.initializeModel(requireContext())
+
+            username?.let { username -> option?.let { option -> followingViewModel.loadFollowUser(username, option) } }
+
+            followingViewModel.listFollowsUser.observe(viewLifecycleOwner,{
+                followingAdapter.setFollows(it)
+            })
+
+            followingViewModel.showProgress.observe(viewLifecycleOwner,{
+                if (it)
+                    binding.progressBar.visibility = View.VISIBLE
+                else
+                    binding.progressBar.visibility = View.GONE
             })
         }
     }
 
-    private fun action() {
-        followAdapter.setOnClickItemListener(object : OnItemClickListener {
+    private fun action(adapter: FollowAdapter) {
+        adapter.setOnClickItemListener(object : OnItemClickListener {
             override fun onItemClick(item: View, userSearch: User) {
                 val arg = Bundle()
                 arg.putParcelable(KEY_DETAIL_USER, userSearch)
@@ -102,17 +105,9 @@ class FollowFragment() : Fragment() {
                 val detailDialogFragment = DetailDialogFragment()
                 detailDialogFragment.arguments = arg
 
-                detailDialogFragment.show(activity!!.supportFragmentManager, "Detail Dialog")
+                detailDialogFragment.show(requireActivity().supportFragmentManager, "Detail Dialog")
             }
         })
-    }
-
-    private fun showLoading(state: Boolean) {
-        if (state) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
