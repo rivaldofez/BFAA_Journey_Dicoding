@@ -21,7 +21,8 @@
             android:id="@+id/img_avatar"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
-            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:contentDescription="@string/avatar_image_user"
             app:civ_border_color="@color/deep_maroon"
             app:civ_border_width="@dimen/_1sdp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,6 +49,7 @@
             android:layout_height="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_8sdp"
             android:src="@drawable/ic_verified_username"
+            android:contentDescription="@string/icon"
             app:layout_constraintStart_toEndOf="@+id/img_avatar"
             app:layout_constraintTop_toBottomOf="@+id/tv_username" />
 
@@ -70,6 +72,7 @@
             android:layout_height="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_8sdp"
             android:src="@drawable/ic_baseline_insert_link_24"
+            android:contentDescription="@string/icon"
             app:layout_constraintStart_toEndOf="@+id/img_avatar"
             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 

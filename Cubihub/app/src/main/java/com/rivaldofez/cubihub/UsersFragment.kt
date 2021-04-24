@@ -73,7 +73,7 @@ class UsersFragment : Fragment() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding.progressBar.visibility = View.VISIBLE
-                binding.llNotFound.visibility = View.GONE
+                binding.tvNotFound.visibility = View.GONE
                 query?.let { searchUserViewModel.searchUser(it) }
                 return true
             }
@@ -82,7 +82,6 @@ class UsersFragment : Fragment() {
                 return false
             }
         })
-
     }
 
     private fun action() {

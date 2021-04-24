@@ -10,7 +10,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="rivaldofez"
         android:textStyle="bold"
         android:textColor="@color/teal"
         android:id="@+id/tv_username"
@@ -18,18 +17,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        tools:text="rivaldofez"
         />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/img_content"
         android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_220sdp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/_20sdp"
         android:adjustViewBounds="true"
         android:elevation="@dimen/_5sdp"
         android:scaleType="centerCrop"
+        tools:src="@drawable/profile_pict"
         app:shapeAppearanceOverlay="@style/RoundImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="@dimen/_20sdp"
-        android:text="Back"
+        tools:text="Back"
         app:layout_constraintTop_toBottomOf="@+id/img_content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
