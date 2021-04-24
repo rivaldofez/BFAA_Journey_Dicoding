@@ -31,8 +31,8 @@ class UsersFragment : Fragment() {
     private lateinit var searchUserViewModel: SearchUserViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentUsersBinding.inflate(inflater,container,false)
@@ -47,46 +47,34 @@ class UsersFragment : Fragment() {
         appCompatActivity.setSupportActionBar(binding.toolbarUser)
         appCompatActivity.supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        searchUserViewModel = ViewModelProvider(activity as AppCompatActivity, ViewModelProvider.NewInstanceFactory()).get(SearchUserViewModel::class.java)
+        searchUserViewModel = ViewModelProvider(requireActivity()).get(SearchUserViewModel::class.java)
 
-        binding.llNotFound.visibility = View.VISIBLE
-        binding.rvUsers.visibility = View.GONE
-        showLoading(false)
 
         userAdapter = UsersAdapter(requireActivity())
         binding.rvUsers.layoutManager = layoutManager
         binding.rvUsers.adapter = userAdapter
         action()
 
-        searchUserViewModel.getSearchedUser().observe(viewLifecycleOwner, { userItems ->
-            if(searchUserViewModel.errorState){
-                binding.rvUsers.visibility = View.GONE
-                binding.llNotFound.visibility = View.VISIBLE
-                showLoading(false)
-            }else{
-                if(userItems != null && userItems.size!=0 ){
-                    showLoading(true)
-                    userAdapter.setUsers(userItems)
-                    binding.rvUsers.visibility = View.VISIBLE
-                    binding.llNotFound.visibility = View.GONE
-                    showLoading(false)
-
-                }else{
-                    binding.rvUsers.visibility = View.GONE
-                    binding.llNotFound.visibility = View.VISIBLE
-                    showLoading(false)
-                }
-            }
+        searchUserViewModel.listSearchedUser.observe(viewLifecycleOwner,{
+            userAdapter.setUsers(it)
         })
+
+        searchUserViewModel.showProgress.observe(viewLifecycleOwner,{
+            if (it)
+                binding.progressBar.visibility = View.VISIBLE
+            else
+                binding.progressBar.visibility = View.GONE
+        })
+
 
         val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
         binding.searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
-        binding.searchView.queryHint = context!!.getString(R.string.search_hint)
+        binding.searchView.queryHint = requireActivity().getString(R.string.search_hint)
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding.progressBar.visibility = View.VISIBLE
                 binding.llNotFound.visibility = View.GONE
-                searchUserViewModel.setSearchedUser(query!!, context!!)
+                query?.let { searchUserViewModel.searchUser(it) }
                 return true
             }
 
@@ -121,13 +109,5 @@ class UsersFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun showLoading(state: Boolean) {
-        if (state) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
     }
 }
