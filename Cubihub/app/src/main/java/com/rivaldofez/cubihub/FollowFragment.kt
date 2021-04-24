@@ -1,8 +1,6 @@
 package com.rivaldofez.cubihub
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +14,6 @@ import com.rivaldofez.cubihub.databinding.FragmentFollowBinding
 import com.rivaldofez.cubihub.listener.OnItemClickListener
 import com.rivaldofez.cubihub.model.User
 import com.rivaldofez.cubihub.viewmodel.FollowViewModel
-import com.rivaldofez.cubihub.viewmodel.SearchUserViewModel
 
 class FollowFragment() : Fragment() {
     companion object{
@@ -47,10 +44,6 @@ class FollowFragment() : Fragment() {
             username = savedInstanceState.getString(KEY_USERNAME)
             option = savedInstanceState.getString(KEY_OPTION)
         }
-
-
-
-
 
         if(option!! == DetailPagerAdapter.endFollowers){
             val followerAdapter = FollowAdapter(requireActivity())

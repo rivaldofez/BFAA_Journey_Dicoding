@@ -1,6 +1,5 @@
 package com.rivaldofez.cubihub.repository
 
-import android.app.Application
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.loopj.android.http.AsyncHttpClient
@@ -42,6 +41,20 @@ class FollowRepository(val application: Context) {
                                 html_url = item.getString("html_url"),
                                 avatar_url = item.getString("avatar_url"),
                                 id = item.getInt("id"),
+                            events_url = "",
+                            followers_url = "",
+                            following_url = "",
+                            gists_url = "",
+                            gravatar_id = "",
+                            node_id = "",
+                            organizations_url = "",
+                            received_events_url = "",
+                            repos_url = "",
+                            score = 10,
+                            site_admin = true,
+                            starred_url = "",
+                            subscriptions_url = "",
+                            url = ""
                         )
                         followersItems.add(temp)
                     }

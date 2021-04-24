@@ -27,7 +27,7 @@ class UsersAdapter(val context: Context): RecyclerView.Adapter<UsersAdapter.User
         return users.size
     }
 
-    fun setUsers(data: MutableList<User>){
+    fun setUsers(data: List<User>){
         users.clear()
         users.addAll(data)
         notifyDataSetChanged()

@@ -7,16 +7,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import com.rivaldofez.cubihub.adapter.DetailPagerAdapter
 import com.rivaldofez.cubihub.databinding.ActivityUserDetailBinding
 import com.rivaldofez.cubihub.model.DetailUser
-import com.rivaldofez.cubihub.model.User
 import com.rivaldofez.cubihub.viewmodel.DetailUserViewModel
 import cz.msebera.android.httpclient.Header
 import org.json.JSONObject

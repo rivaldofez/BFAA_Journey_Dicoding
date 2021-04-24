@@ -3,14 +3,11 @@ package com.rivaldofez.cubihub
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,7 +53,7 @@ class UsersFragment : Fragment() {
         action()
 
         searchUserViewModel.listSearchedUser.observe(viewLifecycleOwner,{
-            userAdapter.setUsers(it)
+            userAdapter.setUsers(it.items)
         })
 
         searchUserViewModel.showProgress.observe(viewLifecycleOwner,{
@@ -74,7 +71,7 @@ class UsersFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding.progressBar.visibility = View.VISIBLE
                 binding.tvNotFound.visibility = View.GONE
-                query?.let { searchUserViewModel.searchUser(it) }
+                query?.let { searchUserViewModel.searchUsers(it) }
                 return true
             }
 
