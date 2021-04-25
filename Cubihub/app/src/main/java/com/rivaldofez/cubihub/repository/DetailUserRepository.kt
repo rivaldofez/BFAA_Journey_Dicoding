@@ -2,41 +2,36 @@ package com.rivaldofez.cubihub.repository
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.loopj.android.http.AsyncHttpClient
-import com.loopj.android.http.AsyncHttpResponseHandler
 import com.rivaldofez.cubihub.BuildConfig
-import com.rivaldofez.cubihub.R
+import com.rivaldofez.cubihub.model.DetailUser
 import com.rivaldofez.cubihub.model.User
-import com.rivaldofez.cubihub.model.UserList
 import com.rivaldofez.cubihub.network.RetroInstance
 import com.rivaldofez.cubihub.network.RetrofitService
-import cz.msebera.android.httpclient.Header
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchUserRepository(val application: Application) {
-    val listSearchedUser = MutableLiveData<UserList>()
+class DetailUserRepository(val application: Application) {
+    val detailUser = MutableLiveData<DetailUser>()
     val showProgress = MutableLiveData<Boolean>()
     var errorState = false
 
-    fun searchUsers(keyword: String){
+    fun loadDetailUser(username :String){
         showProgress.value = true
         val retroInstance = RetroInstance.getRetroFitInstance().create(RetrofitService::class.java)
-        val call = retroInstance.searchUsers(BuildConfig.API_TOKEN,keyword)
-        call.enqueue(object: Callback<UserList>{
-            override fun onResponse(call: Call<UserList>, response: Response<UserList>) {
+        val call = retroInstance.getDetailUser(BuildConfig.API_TOKEN, username)
+        call.enqueue(object: Callback<DetailUser>{
+            override fun onResponse(call: Call<DetailUser>, response: Response<DetailUser>) {
                 if(response.isSuccessful){
-                    listSearchedUser.postValue(response.body())
+                    detailUser.postValue(response.body())
                 }else{
-                    listSearchedUser.postValue(null)
+                    detailUser.postValue(null)
                 }
                 showProgress.value = false
             }
 
-            override fun onFailure(call: Call<UserList>, t: Throwable) {
-                listSearchedUser.postValue(null)
+            override fun onFailure(call: Call<DetailUser>, t: Throwable) {
+                detailUser.postValue(null)
                 showProgress.value = false
             }
         })
@@ -46,4 +41,3 @@ class SearchUserRepository(val application: Application) {
         showProgress.value = !(showProgress.value != null && showProgress.value!!)
     }
 }
-

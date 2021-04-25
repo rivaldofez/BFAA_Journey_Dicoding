@@ -4,79 +4,48 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
+import com.rivaldofez.cubihub.BuildConfig
 import com.rivaldofez.cubihub.R
+import com.rivaldofez.cubihub.model.DetailUser
 import com.rivaldofez.cubihub.model.User
+import com.rivaldofez.cubihub.model.UserList
+import com.rivaldofez.cubihub.network.RetroInstance
+import com.rivaldofez.cubihub.network.RetrofitService
 import cz.msebera.android.httpclient.Header
 import org.json.JSONArray
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class FollowRepository(val application: Context) {
     val listFollowsUser = MutableLiveData<ArrayList<User>>()
     val showProgress = MutableLiveData<Boolean>()
     var errorState = false
 
-    fun loadFollowUser(username: String, option: String){
+    fun getFollowUser(username: String, option: String){
         showProgress.value = true
-        val followersItems = ArrayList<User>()
-
-        val client = AsyncHttpClient()
-        val url = application.getString(R.string.follow_url,username,option)
-        client.addHeader("Authorization", application.getString(R.string.token))
-        client.addHeader("User-Agent", "request")
-
-        client.get(url, object : AsyncHttpResponseHandler(){
-            override fun onSuccess(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    responseBody: ByteArray?
+        val retroInstance = RetroInstance.getRetroFitInstance().create(RetrofitService::class.java)
+        val call = retroInstance.getFollowInfo(BuildConfig.API_TOKEN,username,option)
+        call.enqueue(object : Callback<List<User>>{
+            override fun onResponse(
+                call: Call<List<User>>,
+                response: Response<List<User>>
             ) {
-                val result = String(responseBody!!)
-                try {
-                    val item_users = JSONArray(result)
-                    followersItems.clear()
-                    for(i in 0 until item_users.length()){
-                        val item = item_users.getJSONObject(i)
-                        val temp = User(
-                                login = item.getString("login"),
-                                type = item.getString("type"),
-                                html_url = item.getString("html_url"),
-                                avatar_url = item.getString("avatar_url"),
-                                id = item.getInt("id"),
-                            events_url = "",
-                            followers_url = "",
-                            following_url = "",
-                            gists_url = "",
-                            gravatar_id = "",
-                            node_id = "",
-                            organizations_url = "",
-                            received_events_url = "",
-                            repos_url = "",
-                            score = 10,
-                            site_admin = true,
-                            starred_url = "",
-                            subscriptions_url = "",
-                            url = ""
-                        )
-                        followersItems.add(temp)
-                    }
-                    listFollowsUser.postValue(followersItems)
-                    errorState = false
-
-                    showProgress.value = false
-                } catch (e: Exception) {
-                    e.printStackTrace()
+                if(response.isSuccessful){
+                    listFollowsUser.postValue(response.body() as ArrayList<User>?)
+                }else{
+                    listFollowsUser.postValue(null)
                 }
+                showProgress.value = false
             }
-            override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    responseBody: ByteArray?,
-                    error: Throwable?
-            ) {
-                errorState = true
+
+            override fun onFailure(call: Call<List<User>>, t: Throwable) {
+                listFollowsUser.postValue(null)
                 showProgress.value = false
             }
         })
     }
+
 
     fun changeState(){
         showProgress.value = !(showProgress.value != null && showProgress.value!!)

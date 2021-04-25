@@ -53,7 +53,7 @@ class FollowFragment() : Fragment() {
 
             followerViewModel = ViewModelProvider(requireActivity() as AppCompatActivity,ViewModelProvider.NewInstanceFactory()).get(FollowViewModel::class.java)
             followerViewModel.initializeModel(requireContext())
-            username?.let { username -> option?.let { option -> followerViewModel.loadFollowUser(username, option) } }
+            username?.let { username -> option?.let { option -> followerViewModel.getFollowUser(username, option) } }
 
             followerViewModel.listFollowsUser.observe(viewLifecycleOwner,{
                 followerAdapter.setFollows(it)
@@ -74,7 +74,7 @@ class FollowFragment() : Fragment() {
             followingViewModel = ViewModelProvider(requireActivity() as AppCompatActivity,ViewModelProvider.NewInstanceFactory()).get(FollowViewModel::class.java)
             followingViewModel.initializeModel(requireContext())
 
-            username?.let { username -> option?.let { option -> followingViewModel.loadFollowUser(username, option) } }
+            username?.let { username -> option?.let { option -> followingViewModel.getFollowUser(username, option) } }
 
             followingViewModel.listFollowsUser.observe(viewLifecycleOwner,{
                 followingAdapter.setFollows(it)

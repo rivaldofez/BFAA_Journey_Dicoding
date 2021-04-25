@@ -17,8 +17,8 @@ class FollowViewModel: ViewModel() {
         repository.changeState()
     }
 
-    fun loadFollowUser(username: String, option: String) {
-        repository.loadFollowUser(username, option)
+    fun getFollowUser(username: String, option: String) {
+        repository.getFollowUser(username, option)
     }
 
     fun initializeModel(context: Context){

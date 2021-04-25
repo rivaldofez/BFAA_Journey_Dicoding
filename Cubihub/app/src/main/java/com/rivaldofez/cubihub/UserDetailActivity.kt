@@ -15,10 +15,15 @@ import com.rivaldofez.cubihub.adapter.DetailPagerAdapter
 import com.rivaldofez.cubihub.databinding.ActivityUserDetailBinding
 import com.rivaldofez.cubihub.model.DetailUser
 import com.rivaldofez.cubihub.viewmodel.DetailUserViewModel
+import com.rivaldofez.cubihub.viewmodel.SearchUserViewModel
 import cz.msebera.android.httpclient.Header
 import org.json.JSONObject
 
 class UserDetailActivity : AppCompatActivity() {
+    private lateinit var detailUserViewModel: DetailUserViewModel
+    private lateinit var username: String
+    private lateinit var binding:ActivityUserDetailBinding
+
     companion object {
         @StringRes
         private val TAB_TITLES = intArrayOf(
@@ -27,25 +32,24 @@ class UserDetailActivity : AppCompatActivity() {
         )
     }
 
-    private lateinit var username: String
-    private lateinit var binding:ActivityUserDetailBinding
-    private lateinit var detailUserViewModel: DetailUserViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initView()
+        detailUserViewModel = ViewModelProvider(this).get(DetailUserViewModel::class.java)
 
-        detailUserViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DetailUserViewModel::class.java)
+        detailUserViewModel.loadDetailUser(username)
+        detailUserViewModel.detailUser.observe(this,{
+            setUserView(it)
+        })
 
-        detailUserViewModel.setDetailUser(username, this@UserDetailActivity)
-        detailUserViewModel.getDetailUser().observe(this,{ detailUser ->
-            if (detailUser != null){
-                setUserView(detailUser)
-                showLoading(false)
-            }
+        detailUserViewModel.showProgress.observe(this,{
+            if (it)
+                binding.progressBar.visibility = View.VISIBLE
+            else
+                binding.progressBar.visibility = View.GONE
         })
 
         val detailPagerAdapter = DetailPagerAdapter(this)
@@ -54,7 +58,6 @@ class UserDetailActivity : AppCompatActivity() {
         binding.viewPager.adapter = detailPagerAdapter
         TabLayoutMediator(binding.tabs, binding.viewPager, ) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
-
         }.attach()
     }
 
@@ -82,55 +85,5 @@ class UserDetailActivity : AppCompatActivity() {
         else   binding.tvFollowing.text = getString(R.string.nulldata)
 
         Glide.with(this).load(detailUser.avatar_url).into(binding.imgContent)
-    }
-
-    private fun fetchFromAPI(){
-        val client = AsyncHttpClient()
-        val url = "https://api.github.com/users/$username"
-        client.addHeader("Authorization", "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")
-        client.addHeader("User-Agent", "request")
-
-        client.get(url, object : AsyncHttpResponseHandler(){
-            override fun onSuccess(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    responseBody: ByteArray?
-            ) {
-                binding.progressBar.visibility = View.INVISIBLE
-
-                val result = String(responseBody!!)
-                try {
-                    val item = JSONObject(result)
-                    binding.tvFullname.text = item.getString("name")
-                    binding.tvUsername.text = item.getString("login")
-                    binding.tvFollower.text = item.getInt("followers").toString()
-                    binding.tvLocation.text = item.getString("location")
-                    binding.tvFollowing.text = item.getInt("following").toString()
-                    binding.tvRepository.text = item.getInt("public_repos").toString()
-                    Glide.with(applicationContext).load(item.getString("avatar_url")).into(binding.imgContent)
-                    Log.d("UserDetailTest", result)
-                } catch (e: Exception) {
-                    Toast.makeText(this@UserDetailActivity, e.message, Toast.LENGTH_SHORT).show()
-                    e.printStackTrace()
-                }
-            }
-            override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    responseBody: ByteArray?,
-                    error: Throwable?
-            ) {
-                binding.progressBar.visibility = View.INVISIBLE
-                Log.d("UserDetailActivity", error!!.message.toString())
-            }
-        })
-    }
-
-    private fun showLoading(state: Boolean) {
-        if (state) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
     }
 }
