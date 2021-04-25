@@ -54,6 +54,7 @@ class UsersFragment : Fragment() {
 
         searchUserViewModel.listSearchedUser.observe(viewLifecycleOwner,{
             userAdapter.setUsers(it.items)
+
         })
 
         searchUserViewModel.showProgress.observe(viewLifecycleOwner,{
@@ -99,9 +100,12 @@ class UsersFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
-            R.id.language -> {
-                val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            R.id.settings -> {
+                val mIntent = Intent(requireActivity(),SettingsActivity::class.java)
                 startActivity(mIntent)
+            }
+            R.id.favorite -> {
+
             }
         }
         return super.onOptionsItemSelected(item)

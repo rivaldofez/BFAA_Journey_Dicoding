@@ -33,7 +33,7 @@ class DetailDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvUsername.text = user.login
-        Glide.with(context!!).load(user.avatar_url).into(binding.imgContent)
+        Glide.with(requireContext()).load(user.avatar_url).into(binding.imgContent)
 
         binding.btnBack.setOnClickListener {
             dismiss()

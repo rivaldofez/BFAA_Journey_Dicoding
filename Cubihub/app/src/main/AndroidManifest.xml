@@ -3,15 +3,34 @@
     package="com.rivaldofez.cubihub">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <permission android:name="com.rivaldofez.cubihub.READ_DATABASE" android:protectionLevel="normal"/>
+    <permission android:name="com.rivaldofez.cubihub.WRITE_DATABASE" android:protectionLevel="normal"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.Cubihub">
-        <activity android:name=".UserDetailActivity"/>
+        android:theme="@style/Theme.Cubihub"
+        android:usesCleartextTraffic="true">
+        <provider
+            android:name=".provider.UserProvider"
+            android:authorities="com.rivaldofez.cubihub"
+            android:enabled="true"
+            android:exported="true"
+            android:readPermission="com.rivaldofez.cubihub.READ_DATABASE"
+            android:writePermission="com.rivaldofez.cubihub.WRITE_DATABASE"></provider>
+
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".UserDetailActivity" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.Cubihub.Splash">
@@ -21,8 +40,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

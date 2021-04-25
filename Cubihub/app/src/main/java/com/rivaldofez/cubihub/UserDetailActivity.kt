@@ -1,23 +1,21 @@
 package com.rivaldofez.cubihub
 
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
-import com.loopj.android.http.AsyncHttpClient
-import com.loopj.android.http.AsyncHttpResponseHandler
 import com.rivaldofez.cubihub.adapter.DetailPagerAdapter
+import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.CONTENT_URI
 import com.rivaldofez.cubihub.databinding.ActivityUserDetailBinding
+import com.rivaldofez.cubihub.helper.toContentValues
 import com.rivaldofez.cubihub.model.DetailUser
+import com.rivaldofez.cubihub.provider.UserProvider
 import com.rivaldofez.cubihub.viewmodel.DetailUserViewModel
-import com.rivaldofez.cubihub.viewmodel.SearchUserViewModel
-import cz.msebera.android.httpclient.Header
-import org.json.JSONObject
 
 class UserDetailActivity : AppCompatActivity() {
     private lateinit var detailUserViewModel: DetailUserViewModel
@@ -43,6 +41,10 @@ class UserDetailActivity : AppCompatActivity() {
         detailUserViewModel.loadDetailUser(username)
         detailUserViewModel.detailUser.observe(this,{
             setUserView(it)
+
+            val values = it.toContentValues()
+            contentResolver.insert(CONTENT_URI,values)
+            Log.d("Testin","done insert")
         })
 
         detailUserViewModel.showProgress.observe(this,{
