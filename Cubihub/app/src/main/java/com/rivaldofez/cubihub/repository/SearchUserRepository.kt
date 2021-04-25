@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
+import com.rivaldofez.cubihub.BuildConfig
 import com.rivaldofez.cubihub.R
 import com.rivaldofez.cubihub.model.User
 import com.rivaldofez.cubihub.model.UserList
