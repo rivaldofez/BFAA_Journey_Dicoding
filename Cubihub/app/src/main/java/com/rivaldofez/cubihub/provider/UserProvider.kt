@@ -46,17 +46,6 @@ class UserProvider() : ContentProvider() {
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
     ): Cursor? {
-        if(sUriMatcher.match(uri) == 2){
-            val test = db.detailUserDao().getUserById(Integer.parseInt(uri.lastPathSegment.toString()))
-            Log.d("Teston", "read" + DatabaseUtils.dumpCursorToString(test))
-            Log.d("Teston", uri.lastPathSegment.toString())
-            test.moveToFirst()
-            Log.d("Teston", test.toDetailUser().toString())
-        }else{
-            val tests= db.detailUserDao().getUsersData()
-            Log.d("Testin", "read" + DatabaseUtils.dumpCursorToString(tests))
-            Log.d("Testin", uri.lastPathSegment.toString())
-        }
         return when (sUriMatcher.match(uri)){
             USER -> db.detailUserDao().getUsersData()
             USER_ID -> db.detailUserDao().getUserById(Integer.parseInt(uri.lastPathSegment.toString()))
@@ -89,6 +78,7 @@ class UserProvider() : ContentProvider() {
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
+        Log.d("Testong", "delete")
         val deleted: Int = when (USER_ID) {
             sUriMatcher.match(uri) -> uri.lastPathSegment?.toInt()?.let {
                 db.detailUserDao().deleteUser(

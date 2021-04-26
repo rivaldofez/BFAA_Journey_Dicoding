@@ -39,15 +39,23 @@ class FavoriteUserViewModel: ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val cursor = context.contentResolver.query(idUri,null,null,null, null)
             if (cursor != null) {
-                Log.d("Teston", cursor.toString())
-//                favoriteUser.postValue(cursor.toDetailUser())
+                cursor.moveToFirst()
+                favoriteUser.postValue(cursor.toDetailUser())
             }
         }
     }
 
-    fun insertUsers(context: Context, detailUser: DetailUser){
+    fun insertUser(context: Context, detailUser: DetailUser){
         viewModelScope.launch(Dispatchers.IO) {
             context.contentResolver.insert(CONTENT_URI, detailUser.toContentValues())
+        }
+    }
+
+    fun deleteUser(context: Context,id: String){
+        val idUri = Uri.parse(CONTENT_URI.toString() + "/" + id)
+        viewModelScope.launch(Dispatchers.IO) {
+            context.contentResolver.delete(idUri,null,null)
+            Log.d("Testong", "delete view model")
         }
     }
 

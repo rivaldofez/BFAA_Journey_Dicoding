@@ -38,6 +38,7 @@ class FavoriteActivity : AppCompatActivity() {
         action()
 
         favoriteUserViewModel.getFavoriteUsers(application)
+
         favoriteUserViewModel.listFavoriteUser.observe(this@FavoriteActivity, {
             Log.d("Testun", "itttt"+ it.toString())
             favoriteUserAdapter.setFavoriteUsers(it)

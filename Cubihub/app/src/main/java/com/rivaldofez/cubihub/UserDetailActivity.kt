@@ -1,6 +1,5 @@
 package com.rivaldofez.cubihub
 
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,11 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rivaldofez.cubihub.adapter.DetailPagerAdapter
-import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.CONTENT_URI
 import com.rivaldofez.cubihub.databinding.ActivityUserDetailBinding
-import com.rivaldofez.cubihub.helper.toContentValues
 import com.rivaldofez.cubihub.model.DetailUser
-import com.rivaldofez.cubihub.provider.UserProvider
 import com.rivaldofez.cubihub.viewmodel.DetailUserViewModel
 import com.rivaldofez.cubihub.viewmodel.FavoriteUserViewModel
 
@@ -45,8 +41,10 @@ class UserDetailActivity : AppCompatActivity() {
         detailUserViewModel.detailUser.observe(this,{
             setUserView(it)
 
-            favoriteUserViewModel.insertUsers(applicationContext,it)
+            favoriteUserViewModel.insertUser(applicationContext,it)
             favoriteUserViewModel.getFavoriteUsers(applicationContext)
+            favoriteUserViewModel.deleteUser(applicationContext,"1720517")
+            Log.d("Testong", "Delete Activity")
         })
 
         favoriteUserViewModel.getFavoriteUserById(applicationContext, "3304703")
