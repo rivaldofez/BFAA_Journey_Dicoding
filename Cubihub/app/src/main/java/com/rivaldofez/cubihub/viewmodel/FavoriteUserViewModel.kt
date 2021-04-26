@@ -20,7 +20,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class FavoriteUserViewModel: ViewModel() {
-//    lateinit var listFavoriteUser : MutableLiveData<List<DetailUser>>
+    val listFavoriteUser = MutableLiveData<List<DetailUser>>()
 
     fun getFavoriteUsers(context: Context){
         Log.d("Tesmin", "get")
@@ -29,7 +29,7 @@ class FavoriteUserViewModel: ViewModel() {
             val cursor: Cursor? = context.contentResolver.query(CONTENT_URI, null,null, null, null)
             if (cursor != null) {
                 Log.d("Teston", "getggfgfgf" + cursor.toString())
-//                listFavoriteUser.value = cursor.toListUser()
+                listFavoriteUser.postValue(cursor.toListUser())
             }
         }
     }

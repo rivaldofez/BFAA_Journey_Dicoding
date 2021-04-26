@@ -37,13 +37,11 @@ class FavoriteActivity : AppCompatActivity() {
         favoriteUserViewModel.initializeModel(application)
         action()
 
-        val test = favoriteUserViewModel.getFavoriteUsers(application)
-        Log.d("Testin","getdata"+ test.toString())
-
-//        favoriteUserViewModel.listFavoriteUser.observe(this@FavoriteActivity, {
-//            Log.d("Tesmin", "itttt"+ it.toString())
-//            favoriteUserAdapter.setFavoriteUsers(it)
-//        })
+        favoriteUserViewModel.getFavoriteUsers(application)
+        favoriteUserViewModel.listFavoriteUser.observe(this@FavoriteActivity, {
+            Log.d("Testun", "itttt"+ it.toString())
+            favoriteUserAdapter.setFavoriteUsers(it)
+        })
     }
 
     private fun action() {

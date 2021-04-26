@@ -47,11 +47,6 @@ class UserDetailActivity : AppCompatActivity() {
 
             favoriteUserViewModel.insertUsers(applicationContext,it)
             favoriteUserViewModel.getFavoriteUsers(applicationContext)
-//            Log.d("Teston", test.toString())
-//            val values = it.toContentValues()
-//            contentResolver.insert(CONTENT_URI,values)
-//            Log.d("Testin","done insert")
-
 
         })
 
