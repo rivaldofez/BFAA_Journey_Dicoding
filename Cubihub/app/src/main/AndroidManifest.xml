@@ -5,8 +5,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <permission android:name="com.rivaldofez.cubihub.READ_DATABASE" android:protectionLevel="normal"/>
-    <permission android:name="com.rivaldofez.cubihub.WRITE_DATABASE" android:protectionLevel="normal"/>
+
+    <permission
+        android:name="com.rivaldofez.cubihub.READ_DATABASE"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="com.rivaldofez.cubihub.WRITE_DATABASE"
+        android:protectionLevel="normal" />
 
     <application
         android:allowBackup="true"
@@ -16,13 +21,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cubihub"
         android:usesCleartextTraffic="true">
+        <activity android:name=".FavoriteActivity"></activity>
+
         <provider
             android:name=".provider.UserProvider"
             android:authorities="com.rivaldofez.cubihub"
             android:enabled="true"
             android:exported="true"
             android:readPermission="com.rivaldofez.cubihub.READ_DATABASE"
-            android:writePermission="com.rivaldofez.cubihub.WRITE_DATABASE"></provider>
+            android:writePermission="com.rivaldofez.cubihub.WRITE_DATABASE" />
 
         <receiver
             android:name=".AlarmReceiver"

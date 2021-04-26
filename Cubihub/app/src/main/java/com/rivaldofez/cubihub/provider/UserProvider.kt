@@ -12,6 +12,8 @@ import com.rivaldofez.cubihub.database.DetailUserDatabase
 import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.AUTHORITY
 import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.CONTENT_URI
 import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.TABLE_NAME
+import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.getDatabase
+import com.rivaldofez.cubihub.helper.toListUser
 import com.rivaldofez.cubihub.helper.toUserEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -23,18 +25,18 @@ class UserProvider() : ContentProvider() {
         private const val USER = 1
         private const val USER_ID = 2
         private val sUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
-        private lateinit var detailUserDao: DetailUserDao
+        private lateinit var db:DetailUserDatabase
     }
 
     init {
         // content://com.rivaldofez.cubihub/user
         sUriMatcher.addURI(AUTHORITY, TABLE_NAME, USER)
         // content://com.rivaldofez.cubihub/user/id
-        sUriMatcher.addURI(AUTHORITY, TABLE_NAME, USER_ID)
+        sUriMatcher.addURI(AUTHORITY, "$TABLE_NAME/#", USER_ID)
     }
 
     override fun onCreate(): Boolean {
-        detailUserDao = DetailUserDatabase.getDatabase(context!!.applicationContext).detailUserDao()
+        db = getDatabase(context!!.applicationContext)
         return true
     }
 
@@ -42,9 +44,12 @@ class UserProvider() : ContentProvider() {
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
     ): Cursor? {
-        return when(sUriMatcher.match(uri)){
-            USER -> detailUserDao.getUsersData()
-            USER_ID -> uri.lastPathSegment?.toInt()?.let { detailUserDao.getUserById(it) }
+        Log.d("Testing",uri.toString())
+        Log.d("Testing",sUriMatcher.match(uri).toString())
+
+        return when (sUriMatcher.match(uri)){
+            USER -> db.detailUserDao().getUsersData()
+            USER_ID -> db.detailUserDao().getUserById(Integer.parseInt(uri.lastPathSegment.toString()))
             else -> null
         }
     }
@@ -54,26 +59,15 @@ class UserProvider() : ContentProvider() {
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
-//        Log.d("Testin","start insert")
-//        values?.toUserEntity()?.let {
-//            Log.d("Testin","object" + it.toString())
-//            GlobalScope.launch(Dispatchers.Default) {
-//                detailUserDao.addUser(
-//                    it
-//                )
-//            }
-//        }
         val added: Long = when (USER) {
             sUriMatcher.match(uri) -> values?.toUserEntity()?.let {
-                Log.d("Testin","object" + it.toString())
-                detailUserDao.addUser(
+                db.detailUserDao().addUser(
                     it
                 )
             } ?: 0
             else -> 0
         }
         context?.contentResolver?.notifyChange(CONTENT_URI, null)
-        Log.d("Testin","dones insert")
         return Uri.parse("$CONTENT_URI/$added")
     }
 
@@ -87,7 +81,7 @@ class UserProvider() : ContentProvider() {
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
         val deleted: Int = when (USER_ID) {
             sUriMatcher.match(uri) -> uri.lastPathSegment?.toInt()?.let {
-                detailUserDao.deleteUser(
+                db.detailUserDao().deleteUser(
                     it
                 )
             } ?: 0

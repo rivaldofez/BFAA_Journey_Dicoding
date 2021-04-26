@@ -1,7 +1,9 @@
 package com.rivaldofez.cubihub.helper
 
 import android.content.ContentValues
+import android.database.Cursor
 import com.rivaldofez.cubihub.model.DetailUser
+import java.util.ArrayList
 
 fun DetailUser.toContentValues(): ContentValues =
     ContentValues().apply {
@@ -74,3 +76,52 @@ fun ContentValues.toUserEntity(): DetailUser =
         updated_at = getAsString(USER_UPDATED_AT),
         url = getAsString(USER_URL)
     )
+
+fun Cursor.toDetailUser(): DetailUser =
+    DetailUser(
+        getInt(getColumnIndexOrThrow(USER_ID)),
+        getString(getColumnIndexOrThrow(USER_AVATAR_URL)),
+        getString(getColumnIndexOrThrow(USER_BIO)),
+        getString(getColumnIndexOrThrow(USER_BLOG)),
+        getString(getColumnIndexOrThrow(USER_COMPANY)),
+        getString(getColumnIndexOrThrow(USER_CREATED_AT)),
+        getString(getColumnIndexOrThrow(USER_EMAIL)),
+        getString(getColumnIndexOrThrow(USER_EVENTS_URL)),
+        getInt(getColumnIndexOrThrow(USER_FOLLOWERS)),
+        getString(getColumnIndexOrThrow(USER_FOLLOWERS_URL)),
+        getInt(getColumnIndexOrThrow(USER_FOLLOWING)),
+        getString(getColumnIndexOrThrow(USER_FOLLOWING_URL)),
+        getString(getColumnIndexOrThrow(USER_GISTS_URL)),
+        getString(getColumnIndexOrThrow(USER_GRAVATAR_ID)),
+        getString(getColumnIndexOrThrow(USER_HIREABLE)),
+        getString(getColumnIndexOrThrow(USER_HTML_URL)),
+        getString(getColumnIndexOrThrow(USER_LOCATION)),
+        getString(getColumnIndexOrThrow(USER_LOGIN)),
+        getString(getColumnIndexOrThrow(USER_NAME)),
+        getString(getColumnIndexOrThrow(USER_NODE_ID)),
+        getString(getColumnIndexOrThrow(USER_ORGANIZATIONS_URL)),
+        getInt(getColumnIndexOrThrow(USER_PUBLIC_GISTS)),
+        getInt(getColumnIndexOrThrow(USER_PUBLIC_REPOS)),
+        getString(getColumnIndexOrThrow(USER_RECEIVED_EVENTS_URL)),
+        getString(getColumnIndexOrThrow(USER_REPOS_URL)),
+        (getInt(getColumnIndexOrThrow(USER_SITE_ADMIN)) > 0),
+        getString(getColumnIndexOrThrow(USER_STARRED_URL)),
+        getString(getColumnIndexOrThrow(USER_SUBSCRIPTIONS_URL)),
+        getString(getColumnIndexOrThrow(USER_TWITTER_USERNAME)),
+        getString(getColumnIndexOrThrow(USER_TYPE)),
+        getString(getColumnIndexOrThrow(USER_UPDATED_AT)),
+        getString(getColumnIndexOrThrow(USER_URL))
+    )
+
+fun Cursor.toListUser(): ArrayList<DetailUser> {
+    val detailUserList = ArrayList<DetailUser>()
+
+    apply {
+        while (moveToNext()) {
+            detailUserList.add(
+                toDetailUser()
+            )
+        }
+    }
+    return detailUserList
+}

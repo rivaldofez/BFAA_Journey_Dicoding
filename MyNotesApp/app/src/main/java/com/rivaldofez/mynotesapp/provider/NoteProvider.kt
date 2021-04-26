@@ -35,11 +35,11 @@ class NoteProvider : ContentProvider() {
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
     ): Cursor? {
-        return when (sUriMatcher.match(uri)) {
-            NOTE -> noteHelper.queryAll()
-            NOTE_ID -> noteHelper.queryById(uri.lastPathSegment.toString())
-            else -> null
-        }
+
+    }return when (sUriMatcher.match(uri)) {
+        NOTE -> noteHelper.queryAll()
+        NOTE_ID -> noteHelper.queryById(uri.lastPathSegment.toString())
+        else -> null
     }
 
     override fun getType(uri: Uri): String? {

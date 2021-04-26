@@ -29,7 +29,6 @@ class DetailUserRepository(val application: Application) {
                 }
                 showProgress.value = false
             }
-
             override fun onFailure(call: Call<DetailUser>, t: Throwable) {
                 detailUser.postValue(null)
                 showProgress.value = false

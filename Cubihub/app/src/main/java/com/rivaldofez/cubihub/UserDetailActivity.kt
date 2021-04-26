@@ -16,11 +16,13 @@ import com.rivaldofez.cubihub.helper.toContentValues
 import com.rivaldofez.cubihub.model.DetailUser
 import com.rivaldofez.cubihub.provider.UserProvider
 import com.rivaldofez.cubihub.viewmodel.DetailUserViewModel
+import com.rivaldofez.cubihub.viewmodel.FavoriteUserViewModel
 
 class UserDetailActivity : AppCompatActivity() {
     private lateinit var detailUserViewModel: DetailUserViewModel
     private lateinit var username: String
     private lateinit var binding:ActivityUserDetailBinding
+    private lateinit var favoriteUserViewModel: FavoriteUserViewModel
 
     companion object {
         @StringRes
@@ -37,14 +39,20 @@ class UserDetailActivity : AppCompatActivity() {
 
         initView()
         detailUserViewModel = ViewModelProvider(this).get(DetailUserViewModel::class.java)
+        favoriteUserViewModel = ViewModelProvider(this).get(FavoriteUserViewModel::class.java)
 
         detailUserViewModel.loadDetailUser(username)
         detailUserViewModel.detailUser.observe(this,{
             setUserView(it)
 
-            val values = it.toContentValues()
-            contentResolver.insert(CONTENT_URI,values)
-            Log.d("Testin","done insert")
+            favoriteUserViewModel.insertUsers(applicationContext,it)
+            favoriteUserViewModel.getFavoriteUsers(applicationContext)
+//            Log.d("Teston", test.toString())
+//            val values = it.toContentValues()
+//            contentResolver.insert(CONTENT_URI,values)
+//            Log.d("Testin","done insert")
+
+
         })
 
         detailUserViewModel.showProgress.observe(this,{

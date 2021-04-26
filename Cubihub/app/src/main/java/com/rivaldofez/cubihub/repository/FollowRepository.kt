@@ -46,7 +46,6 @@ class FollowRepository(val application: Context) {
         })
     }
 
-
     fun changeState(){
         showProgress.value = !(showProgress.value != null && showProgress.value!!)
     }

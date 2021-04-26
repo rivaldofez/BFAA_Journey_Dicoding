@@ -4,12 +4,14 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rivaldofez.cubihub.adapter.UsersAdapter
 import com.rivaldofez.cubihub.databinding.FragmentUsersBinding
@@ -32,7 +34,7 @@ class UsersFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentUsersBinding.inflate(inflater,container,false)
+        binding = FragmentUsersBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true);
         return binding.root
     }
@@ -52,12 +54,12 @@ class UsersFragment : Fragment() {
         binding.rvUsers.adapter = userAdapter
         action()
 
-        searchUserViewModel.listSearchedUser.observe(viewLifecycleOwner,{
+        searchUserViewModel.listSearchedUser.observe(viewLifecycleOwner, {
             userAdapter.setUsers(it.items)
 
         })
 
-        searchUserViewModel.showProgress.observe(viewLifecycleOwner,{
+        searchUserViewModel.showProgress.observe(viewLifecycleOwner, {
             if (it)
                 binding.progressBar.visibility = View.VISIBLE
             else
@@ -68,7 +70,7 @@ class UsersFragment : Fragment() {
         val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
         binding.searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
         binding.searchView.queryHint = requireActivity().getString(R.string.search_hint)
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding.progressBar.visibility = View.VISIBLE
                 binding.tvNotFound.visibility = View.GONE
@@ -83,7 +85,7 @@ class UsersFragment : Fragment() {
     }
 
     private fun action() {
-        userAdapter.setOnClickItemListener(object : OnItemClickListener{
+        userAdapter.setOnClickItemListener(object : OnItemClickListener {
             override fun onItemClick(item: View, userSearch: User) {
                 val goToDetailActivity = Intent(context, UserDetailActivity::class.java)
                 goToDetailActivity.putExtra(KEY_USERNAME, userSearch.login)
@@ -101,11 +103,11 @@ class UsersFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.settings -> {
-                val mIntent = Intent(requireActivity(),SettingsActivity::class.java)
+                val mIntent = Intent(requireActivity(), SettingsActivity::class.java)
                 startActivity(mIntent)
             }
             R.id.favorite -> {
-
+                startActivity(Intent(requireActivity(), FavoriteActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)

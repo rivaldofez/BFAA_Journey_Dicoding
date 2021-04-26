@@ -26,5 +26,4 @@ class FollowViewModel: ViewModel() {
         this.listFollowsUser = repository.listFollowsUser
         this.showProgress = repository.showProgress
     }
-
 }

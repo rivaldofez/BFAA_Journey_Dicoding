@@ -4,6 +4,6 @@ import android.view.View
 import com.rivaldofez.cubihub.model.DetailUser
 import com.rivaldofez.cubihub.model.User
 
-interface OnItemClickListener {
-    fun onItemClick(item: View, userSearch: User)
+interface OnFavoriteClickListener {
+    fun onFavoriteDetail(item: View, favoriteUser: DetailUser)
 }
