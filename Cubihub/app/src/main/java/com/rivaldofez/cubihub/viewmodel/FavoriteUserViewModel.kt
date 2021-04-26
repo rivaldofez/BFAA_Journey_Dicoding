@@ -3,12 +3,14 @@ package com.rivaldofez.cubihub.viewmodel
 import android.app.Application
 import android.content.Context
 import android.database.Cursor
+import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.CONTENT_URI
 import com.rivaldofez.cubihub.helper.toContentValues
+import com.rivaldofez.cubihub.helper.toDetailUser
 import com.rivaldofez.cubihub.helper.toListUser
 import com.rivaldofez.cubihub.model.DetailUser
 import com.rivaldofez.cubihub.model.User
@@ -21,15 +23,24 @@ import kotlinx.coroutines.launch
 
 class FavoriteUserViewModel: ViewModel() {
     val listFavoriteUser = MutableLiveData<List<DetailUser>>()
+    val favoriteUser = MutableLiveData<DetailUser>()
 
     fun getFavoriteUsers(context: Context){
-        Log.d("Tesmin", "get")
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("Tesmin", "launch")
             val cursor: Cursor? = context.contentResolver.query(CONTENT_URI, null,null, null, null)
             if (cursor != null) {
-                Log.d("Teston", "getggfgfgf" + cursor.toString())
                 listFavoriteUser.postValue(cursor.toListUser())
+            }
+        }
+    }
+
+    fun getFavoriteUserById(context: Context, id: String){
+        val idUri = Uri.parse(CONTENT_URI.toString() + "/" + id)
+        viewModelScope.launch(Dispatchers.IO) {
+            val cursor = context.contentResolver.query(idUri,null,null,null, null)
+            if (cursor != null) {
+                Log.d("Teston", cursor.toString())
+//                favoriteUser.postValue(cursor.toDetailUser())
             }
         }
     }
@@ -42,6 +53,6 @@ class FavoriteUserViewModel: ViewModel() {
 
     fun initializeModel(context: Context){
         getFavoriteUsers(context)
-//        listFavoriteUser = MutableLiveData<List<DetailUser>>()
     }
+
 }

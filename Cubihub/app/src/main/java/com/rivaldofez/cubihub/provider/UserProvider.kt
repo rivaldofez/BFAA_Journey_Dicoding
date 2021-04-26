@@ -5,6 +5,7 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
+import android.database.DatabaseUtils
 import android.net.Uri
 import android.util.Log
 import com.rivaldofez.cubihub.database.DetailUserDao
@@ -13,6 +14,7 @@ import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.AUTHORITY
 import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.CONTENT_URI
 import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.TABLE_NAME
 import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.getDatabase
+import com.rivaldofez.cubihub.helper.toDetailUser
 import com.rivaldofez.cubihub.helper.toListUser
 import com.rivaldofez.cubihub.helper.toUserEntity
 import kotlinx.coroutines.Dispatchers
@@ -44,9 +46,17 @@ class UserProvider() : ContentProvider() {
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
     ): Cursor? {
-        Log.d("Testing",uri.toString())
-        Log.d("Testing",sUriMatcher.match(uri).toString())
-
+        if(sUriMatcher.match(uri) == 2){
+            val test = db.detailUserDao().getUserById(Integer.parseInt(uri.lastPathSegment.toString()))
+            Log.d("Teston", "read" + DatabaseUtils.dumpCursorToString(test))
+            Log.d("Teston", uri.lastPathSegment.toString())
+            test.moveToFirst()
+            Log.d("Teston", test.toDetailUser().toString())
+        }else{
+            val tests= db.detailUserDao().getUsersData()
+            Log.d("Testin", "read" + DatabaseUtils.dumpCursorToString(tests))
+            Log.d("Testin", uri.lastPathSegment.toString())
+        }
         return when (sUriMatcher.match(uri)){
             USER -> db.detailUserDao().getUsersData()
             USER_ID -> db.detailUserDao().getUserById(Integer.parseInt(uri.lastPathSegment.toString()))

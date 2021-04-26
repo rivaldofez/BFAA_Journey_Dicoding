@@ -47,7 +47,12 @@ class UserDetailActivity : AppCompatActivity() {
 
             favoriteUserViewModel.insertUsers(applicationContext,it)
             favoriteUserViewModel.getFavoriteUsers(applicationContext)
+        })
 
+        favoriteUserViewModel.getFavoriteUserById(applicationContext, "3304703")
+
+        favoriteUserViewModel.favoriteUser.observe(this, {
+            Log.d("Teston", it.toString())
         })
 
         detailUserViewModel.showProgress.observe(this,{
