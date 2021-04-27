@@ -27,10 +27,12 @@ class UserDetailFragment : Fragment() {
         )
     }
 
-    lateinit var binding: FragmentUserDetailBinding
+    private lateinit var binding: FragmentUserDetailBinding
     private lateinit var username: String
     private lateinit var detailUserViewModel: DetailUserViewModel
     private lateinit var favoriteUserViewModel: FavoriteUserViewModel
+    var isFavoriteUser = false
+    private lateinit var favoriteUser: DetailUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,18 +52,26 @@ class UserDetailFragment : Fragment() {
 
         detailUserViewModel.loadDetailUser(username)
         detailUserViewModel.detailUser.observe(viewLifecycleOwner,{
+            favoriteUserViewModel.checkFavoriteUser(requireContext().applicationContext, it.id)
             setUserView(it)
-
-            favoriteUserViewModel.insertUser(requireContext().applicationContext,it)
-            favoriteUserViewModel.getFavoriteUsers(requireContext().applicationContext)
-            favoriteUserViewModel.deleteUser(requireContext().applicationContext,"1720517")
-            Log.d("Testong", "Delete Activity")
+            favoriteUser = it
         })
 
-        favoriteUserViewModel.getFavoriteUserById(requireContext().applicationContext, "3304703")
+        favoriteUserViewModel.isFavoriteUser.observe(viewLifecycleOwner,{
+            isFavoriteUser = it
+            setIconButton(isFavoriteUser)
+        })
 
-        favoriteUserViewModel.favoriteUser.observe(viewLifecycleOwner, {
-            Log.d("Teston", it.toString())
+        binding.btnFavorite.setOnClickListener(View.OnClickListener {
+            if(isFavoriteUser){
+                favoriteUserViewModel.deleteUser(requireContext().applicationContext, favoriteUser.id)
+                isFavoriteUser=!isFavoriteUser
+                setIconButton(isFavoriteUser)
+            }else{
+                favoriteUserViewModel.insertUser(requireContext().applicationContext,favoriteUser)
+                isFavoriteUser=!isFavoriteUser
+                setIconButton(isFavoriteUser)
+            }
         })
 
         detailUserViewModel.showProgress.observe(viewLifecycleOwner,{
@@ -105,4 +115,17 @@ class UserDetailFragment : Fragment() {
 
         Glide.with(this).load(detailUser.avatar_url).into(binding.imgContent)
     }
+
+    private fun setIconButton(state: Boolean){
+        if(state) {
+            binding.btnFavorite.setImageDrawable(
+                requireActivity().getDrawable(R.drawable.ic_favorite_filled)
+            )
+        }else {
+            binding.btnFavorite.setImageDrawable(
+                requireActivity().getDrawable(R.drawable.ic_favorite_unfilled)
+            )
+        }
+    }
+
 }
