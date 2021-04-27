@@ -82,12 +82,7 @@ class UsersFragment : Fragment() {
     private fun action() {
         userAdapter.setOnClickItemListener(object : OnItemClickListener {
             override fun onItemClick(item: View, userSearch: User) {
-//                val goToDetailActivity = Intent(context, UserDetailActivity::class.java)
-//                goToDetailActivity.putExtra(KEY_USERNAME, userSearch.login)
-//                startActivity(goToDetailActivity)
-
                 val gotoDetailFragment = UsersFragmentDirections.actionNavigationUsersToUserDetailFragment(userSearch.login)
-//                gotoDetailFragment.username = userSearch.login
                 findNavController().navigate(gotoDetailFragment)
             }
         })

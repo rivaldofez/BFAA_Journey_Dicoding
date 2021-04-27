@@ -7,7 +7,7 @@
 
     <item
         android:title="Favorite"
-        android:icon="@drawable/ic_favorite"
+        android:icon="@drawable/ic_favorite_filled"
         android:id="@+id/navigation_favorite"
         />
 

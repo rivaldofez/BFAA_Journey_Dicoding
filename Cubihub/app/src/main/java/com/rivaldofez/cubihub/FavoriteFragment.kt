@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rivaldofez.cubihub.adapter.FavoriteAdapter
 import com.rivaldofez.cubihub.databinding.FragmentFavoriteBinding
@@ -52,9 +53,12 @@ class FavoriteFragment : Fragment() {
     private fun action() {
         favoriteUserAdapter.setOnClickItemListener(object  : OnFavoriteClickListener {
             override fun onFavoriteDetail(item: View, favoriteUser: DetailUser) {
-                val goToDetailActivity = Intent(requireContext(), UserDetailActivity::class.java)
-                goToDetailActivity.putExtra(UsersFragment.KEY_USERNAME, favoriteUser.login)
-                startActivity(goToDetailActivity)
+                val gotoDetailFragment = favoriteUser.login?.let {
+                    FavoriteFragmentDirections.actionNavigationFavoriteToUserDetailFragment(
+                        it
+                    )
+                }
+                gotoDetailFragment?.let { findNavController().navigate(it) }
             }
         })
     }
