@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_users_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_navigation_users_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_about"
@@ -33,4 +36,16 @@
         android:name="com.rivaldofez.cubihub.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/userDetailFragment"
+        android:name="com.rivaldofez.cubihub.UserDetailFragment"
+        android:label="fragment_user_detail"
+        tools:layout="@layout/fragment_user_detail" >
+        <action
+            android:id="@+id/action_userDetailFragment_to_navigation_users"
+            app:destination="@id/navigation_users" />
+        <argument
+            android:name="username"
+            app:argType="string" />
+    </fragment>
 </navigation>

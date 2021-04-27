@@ -1,66 +1,77 @@
 package com.rivaldofez.cubihub
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rivaldofez.cubihub.adapter.DetailPagerAdapter
-import com.rivaldofez.cubihub.databinding.ActivityUserDetailBinding
+import com.rivaldofez.cubihub.databinding.FragmentUserDetailBinding
 import com.rivaldofez.cubihub.model.DetailUser
 import com.rivaldofez.cubihub.viewmodel.DetailUserViewModel
 import com.rivaldofez.cubihub.viewmodel.FavoriteUserViewModel
 
-class UserDetailActivity : AppCompatActivity() {
-    private lateinit var detailUserViewModel: DetailUserViewModel
-    private lateinit var username: String
-    private lateinit var binding:ActivityUserDetailBinding
-    private lateinit var favoriteUserViewModel: FavoriteUserViewModel
 
+class UserDetailFragment : Fragment() {
     companion object {
         @StringRes
-        private val TAB_TITLES = intArrayOf(
+        val TAB_TITLES = intArrayOf(
             R.string.followers,
             R.string.following
         )
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityUserDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    lateinit var binding: FragmentUserDetailBinding
+    private lateinit var username: String
+    private lateinit var detailUserViewModel: DetailUserViewModel
+    private lateinit var favoriteUserViewModel: FavoriteUserViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = FragmentUserDetailBinding.inflate(inflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initView()
-        detailUserViewModel = ViewModelProvider(this).get(DetailUserViewModel::class.java)
-        favoriteUserViewModel = ViewModelProvider(this).get(FavoriteUserViewModel::class.java)
+        detailUserViewModel = ViewModelProvider(requireActivity()).get(DetailUserViewModel::class.java)
+        favoriteUserViewModel = ViewModelProvider(requireActivity()).get(FavoriteUserViewModel::class.java)
 
         detailUserViewModel.loadDetailUser(username)
-        detailUserViewModel.detailUser.observe(this,{
+        detailUserViewModel.detailUser.observe(viewLifecycleOwner,{
             setUserView(it)
 
-            favoriteUserViewModel.insertUser(applicationContext,it)
-            favoriteUserViewModel.getFavoriteUsers(applicationContext)
-            favoriteUserViewModel.deleteUser(applicationContext,"1720517")
+            favoriteUserViewModel.insertUser(requireContext().applicationContext,it)
+            favoriteUserViewModel.getFavoriteUsers(requireContext().applicationContext)
+            favoriteUserViewModel.deleteUser(requireContext().applicationContext,"1720517")
             Log.d("Testong", "Delete Activity")
         })
 
-        favoriteUserViewModel.getFavoriteUserById(applicationContext, "3304703")
+        favoriteUserViewModel.getFavoriteUserById(requireContext().applicationContext, "3304703")
 
-        favoriteUserViewModel.favoriteUser.observe(this, {
+        favoriteUserViewModel.favoriteUser.observe(viewLifecycleOwner, {
             Log.d("Teston", it.toString())
         })
 
-        detailUserViewModel.showProgress.observe(this,{
+        detailUserViewModel.showProgress.observe(viewLifecycleOwner,{
             if (it)
                 binding.progressBar.visibility = View.VISIBLE
             else
                 binding.progressBar.visibility = View.GONE
         })
 
-        val detailPagerAdapter = DetailPagerAdapter(this)
+        val detailPagerAdapter = DetailPagerAdapter(requireActivity() as AppCompatActivity)
         detailPagerAdapter.username = username
 
         binding.viewPager.adapter = detailPagerAdapter
@@ -70,7 +81,7 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        username = intent.getStringExtra(UsersFragment.KEY_USERNAME)!!
+        username = UserDetailFragmentArgs.fromBundle(arguments as Bundle).username
     }
 
     private fun setUserView(detailUser : DetailUser){
