@@ -78,7 +78,6 @@ class UserProvider() : ContentProvider() {
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
-        Log.d("Testong", "delete")
         val deleted: Int = when (USER_ID) {
             sUriMatcher.match(uri) -> uri.lastPathSegment?.toInt()?.let {
                 db.detailUserDao().deleteUser(
@@ -90,5 +89,4 @@ class UserProvider() : ContentProvider() {
         context?.contentResolver?.notifyChange(CONTENT_URI, null)
         return deleted
     }
-
 }

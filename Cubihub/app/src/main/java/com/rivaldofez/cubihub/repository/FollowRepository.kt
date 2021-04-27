@@ -2,17 +2,10 @@ package com.rivaldofez.cubihub.repository
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.loopj.android.http.AsyncHttpClient
-import com.loopj.android.http.AsyncHttpResponseHandler
 import com.rivaldofez.cubihub.BuildConfig
-import com.rivaldofez.cubihub.R
-import com.rivaldofez.cubihub.model.DetailUser
 import com.rivaldofez.cubihub.model.User
-import com.rivaldofez.cubihub.model.UserList
 import com.rivaldofez.cubihub.network.RetroInstance
 import com.rivaldofez.cubihub.network.RetrofitService
-import cz.msebera.android.httpclient.Header
-import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

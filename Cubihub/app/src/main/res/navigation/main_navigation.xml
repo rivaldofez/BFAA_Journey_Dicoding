@@ -3,24 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/favoriteFragment">
+    app:startDestination="@id/navigation_users">
 
     <fragment
-        android:id="@+id/favoriteFragment"
-        android:name="com.rivaldofez.cubihub.FavoriteFragment"
-        android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" >
-        <action
-            android:id="@+id/action_favoriteFragment_to_usersFragment"
-            app:destination="@id/usersFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/usersFragment"
+        android:id="@+id/navigation_users"
         android:name="com.rivaldofez.cubihub.UsersFragment"
         android:label="fragment_users"
         tools:layout="@layout/fragment_users" >
         <action
-            android:id="@+id/action_usersFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
+            android:id="@+id/action_navigation_users_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/navigation_about"
+        android:name="com.rivaldofez.cubihub.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.rivaldofez.cubihub.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_navigation_users"
+            app:destination="@id/navigation_users" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_favorite"
+        android:name="com.rivaldofez.cubihub.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
 </navigation>

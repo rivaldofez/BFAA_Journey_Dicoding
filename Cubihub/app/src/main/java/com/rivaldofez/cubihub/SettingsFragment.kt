@@ -1,20 +1,18 @@
 package com.rivaldofez.cubihub
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
-import com.rivaldofez.cubihub.databinding.ActivitySettingsBinding
-import com.rivaldofez.cubihub.databinding.ActivityUserDetailBinding
-import com.rivaldofez.cubihub.databinding.FragmentUsersBinding
-import java.text.SimpleDateFormat
+import android.view.ViewGroup
+import com.rivaldofez.cubihub.databinding.FragmentFollowBinding
+import com.rivaldofez.cubihub.databinding.FragmentSettingsBinding
 import java.util.*
 
-class SettingsActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySettingsBinding
+class SettingsFragment : Fragment() {
+    private lateinit var binding: FragmentSettingsBinding
     private lateinit var alarmReceiver: AlarmReceiver
 
     companion object {
@@ -23,10 +21,17 @@ class SettingsActivity : AppCompatActivity() {
         private const val TIME_PICKER_REPEAT_TAG = "TimePickerRepeat"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySettingsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSettingsBinding.inflate(inflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         alarmReceiver = AlarmReceiver()
 
         binding.tvLanguageStatus.text = Locale.getDefault().displayLanguage
@@ -42,11 +47,12 @@ class SettingsActivity : AppCompatActivity() {
             val time = "18:45"
 
             if(isChecked){
-                alarmReceiver.setRepeatingAlarm(this, AlarmReceiver.TYPE_REPEATING,
+                alarmReceiver.setRepeatingAlarm(requireContext(), AlarmReceiver.TYPE_REPEATING,
                     time, "Testing")
             }else{
-                alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_REPEATING)
+                alarmReceiver.cancelAlarm(requireContext(), AlarmReceiver.TYPE_REPEATING)
             }
         })
     }
+
 }

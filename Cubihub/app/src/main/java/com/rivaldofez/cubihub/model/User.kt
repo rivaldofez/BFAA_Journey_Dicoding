@@ -1,7 +1,7 @@
 package com.rivaldofez.cubihub.model
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 data class UserList(
     val items: List<User>

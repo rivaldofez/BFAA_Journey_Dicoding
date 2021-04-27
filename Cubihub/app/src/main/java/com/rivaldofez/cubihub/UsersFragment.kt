@@ -8,8 +8,6 @@ import android.view.*
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +22,6 @@ class UsersFragment : Fragment() {
         val KEY_USERNAME = "username"
     }
 
-    val layoutManager = LinearLayoutManager(activity)
     private lateinit var userAdapter : UsersAdapter
     private lateinit var binding: FragmentUsersBinding
     private lateinit var searchUserViewModel: SearchUserViewModel
@@ -48,9 +45,8 @@ class UsersFragment : Fragment() {
 
         searchUserViewModel = ViewModelProvider(requireActivity()).get(SearchUserViewModel::class.java)
 
-
         userAdapter = UsersAdapter(requireActivity())
-        binding.rvUsers.layoutManager = layoutManager
+        binding.rvUsers.layoutManager = LinearLayoutManager(activity)
         binding.rvUsers.adapter = userAdapter
         action()
 
@@ -65,7 +61,6 @@ class UsersFragment : Fragment() {
             else
                 binding.progressBar.visibility = View.GONE
         })
-
 
         val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
         binding.searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
@@ -103,11 +98,7 @@ class UsersFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.settings -> {
-                val mIntent = Intent(requireActivity(), SettingsActivity::class.java)
-                startActivity(mIntent)
-            }
-            R.id.favorite -> {
-                startActivity(Intent(requireActivity(), FavoriteActivity::class.java))
+                findNavController().navigate(R.id.action_navigation_users_to_settingsFragment)
             }
         }
         return super.onOptionsItemSelected(item)

@@ -3,9 +3,16 @@
     <item
         android:title="@string/nav_user"
         android:icon="@drawable/ic_hub"
-        android:id="@+id/item_users"/>
+        android:id="@+id/navigation_users"/>
+
+    <item
+        android:title="Favorite"
+        android:icon="@drawable/ic_favorite"
+        android:id="@+id/navigation_favorite"
+        />
+
     <item
         android:title="@string/nav_about"
         android:icon="@drawable/ic_about"
-        android:id="@+id/item_about"/>
+        android:id="@+id/navigation_about"/>
 </menu>
