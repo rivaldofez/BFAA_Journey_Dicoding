@@ -53,6 +53,10 @@ class SettingsFragment : Fragment() {
                 alarmReceiver.cancelAlarm(requireContext(), AlarmReceiver.TYPE_REPEATING)
             }
         })
+
+        binding.btnBack.setOnClickListener{
+            requireActivity().onBackPressed()
+        }
     }
 
 }

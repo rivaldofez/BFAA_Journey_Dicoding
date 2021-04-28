@@ -88,6 +88,10 @@ class UserDetailFragment : Fragment() {
         TabLayoutMediator(binding.tabs, binding.viewPager, ) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
+
+        binding.btnBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     private fun initView() {
@@ -127,5 +131,6 @@ class UserDetailFragment : Fragment() {
             )
         }
     }
+
 
 }

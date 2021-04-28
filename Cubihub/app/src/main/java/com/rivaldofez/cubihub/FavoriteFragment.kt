@@ -1,6 +1,5 @@
 package com.rivaldofez.cubihub
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.rivaldofez.cubihub.adapter.FavoriteAdapter
 import com.rivaldofez.cubihub.databinding.FragmentFavoriteBinding
-import com.rivaldofez.cubihub.databinding.FragmentSettingsBinding
 import com.rivaldofez.cubihub.listener.OnFavoriteClickListener
+import com.rivaldofez.cubihub.listener.OnSwipeDeleteCallback
 import com.rivaldofez.cubihub.model.DetailUser
 import com.rivaldofez.cubihub.viewmodel.FavoriteUserViewModel
 
@@ -48,6 +49,17 @@ class FavoriteFragment : Fragment() {
             Log.d("Testun", "itttt"+ it.toString())
             favoriteUserAdapter.setFavoriteUsers(it)
         })
+
+        val onItemSwiped = object : OnSwipeDeleteCallback(requireContext(), 0, ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)){
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                var selectedItems = favoriteUserAdapter.getSelectedItem(viewHolder.adapterPosition)
+                favoriteUserViewModel.deleteUser(requireActivity(), selectedItems.id)
+                favoriteUserAdapter.deleteSelectedItem(viewHolder.adapterPosition)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(onItemSwiped)
+        itemTouchHelper.attachToRecyclerView(binding.rvFavoriteUser)
     }
 
     private fun action() {

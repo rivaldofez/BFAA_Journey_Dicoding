@@ -29,6 +29,15 @@ class FavoriteAdapter(val context: Context): RecyclerView.Adapter<FavoriteAdapte
         return favoriteUsers.size
     }
 
+    fun getSelectedItem(position: Int) : DetailUser{
+        return favoriteUsers[position]
+    }
+
+    fun deleteSelectedItem(position: Int){
+        favoriteUsers.removeAt(position)
+        notifyDataSetChanged()
+    }
+
     fun setFavoriteUsers(data: List<DetailUser>){
         favoriteUsers.clear()
         favoriteUsers.addAll(data)
