@@ -104,7 +104,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0)
         pendingIntent.cancel()
         alarmManager.cancel(pendingIntent)
-        Toast.makeText(context, "Alarm berhasil dibatalkan", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Alarm berhasil dimatikan", Toast.LENGTH_SHORT).show()
     }
 
 

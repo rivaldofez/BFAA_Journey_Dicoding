@@ -32,7 +32,13 @@ class SettingsFragment : Fragment() {
         settingsPreference = SettingsPreference(requireContext())
 
         binding.tvLanguageStatus.text = Locale.getDefault().displayLanguage
+
         binding.swAlarm.isChecked = settingsPreference.getSettings()
+        if(settingsPreference.getSettings())
+            binding.tvAlarmStatus.text = "Alarm Aktif"
+        else
+            binding.tvAlarmStatus.text = "Alarm Mati"
+
 
         binding.clChooseLanguage.setOnClickListener(View.OnClickListener {
             val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
@@ -41,12 +47,14 @@ class SettingsFragment : Fragment() {
         })
 
         binding.swAlarm.setOnCheckedChangeListener({_, isChecked->
-            val time = "11:37"
+            val time = "09:00"
             if(isChecked){
-                alarmReceiver.setRepeatingAlarm(requireContext(), time, "Testing")
+                alarmReceiver.setRepeatingAlarm(requireContext(), time, "Waktu untuk kembali ke aplikasi")
+                binding.tvAlarmStatus.text = "Alarm Aktif"
                 settingsPreference.setSettings(true)
             }else{
                 alarmReceiver.cancelAlarm(requireContext(), AlarmReceiver.TYPE_REPEATING)
+                binding.tvAlarmStatus.text = "Alarm Mati"
                 settingsPreference.setSettings(false)
             }
         })
