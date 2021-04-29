@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.rivaldofez.cubihub.database.SettingsPreference
 import com.rivaldofez.cubihub.databinding.FragmentFollowBinding
 import com.rivaldofez.cubihub.databinding.FragmentSettingsBinding
 import java.util.*
@@ -14,12 +15,7 @@ import java.util.*
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
     private lateinit var alarmReceiver: AlarmReceiver
-
-    companion object {
-        private const val DATE_PICKER_TAG = "DatePicker"
-        private const val TIME_PICKER_ONCE_TAG = "TimePickerOnce"
-        private const val TIME_PICKER_REPEAT_TAG = "TimePickerRepeat"
-    }
+    private lateinit var settingsPreference: SettingsPreference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +29,10 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         alarmReceiver = AlarmReceiver()
+        settingsPreference = SettingsPreference(requireContext())
 
         binding.tvLanguageStatus.text = Locale.getDefault().displayLanguage
+        binding.swAlarm.isChecked = settingsPreference.getSettings()
 
         binding.clChooseLanguage.setOnClickListener(View.OnClickListener {
             val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
@@ -43,14 +41,13 @@ class SettingsFragment : Fragment() {
         })
 
         binding.swAlarm.setOnCheckedChangeListener({_, isChecked->
-            val date = "2021-04-25"
-            val time = "18:45"
-
+            val time = "11:37"
             if(isChecked){
-                alarmReceiver.setRepeatingAlarm(requireContext(), AlarmReceiver.TYPE_REPEATING,
-                    time, "Testing")
+                alarmReceiver.setRepeatingAlarm(requireContext(), time, "Testing")
+                settingsPreference.setSettings(true)
             }else{
                 alarmReceiver.cancelAlarm(requireContext(), AlarmReceiver.TYPE_REPEATING)
+                settingsPreference.setSettings(false)
             }
         })
 

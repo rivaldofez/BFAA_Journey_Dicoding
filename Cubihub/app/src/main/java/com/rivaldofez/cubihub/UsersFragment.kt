@@ -2,8 +2,8 @@ package com.rivaldofez.cubihub
 
 import android.app.SearchManager
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,19 +18,16 @@ import com.rivaldofez.cubihub.model.User
 import com.rivaldofez.cubihub.viewmodel.SearchUserViewModel
 
 class UsersFragment : Fragment() {
-    companion object {
-        val KEY_USERNAME = "username"
-    }
-
     private lateinit var userAdapter : UsersAdapter
     private lateinit var binding: FragmentUsersBinding
     private lateinit var searchUserViewModel: SearchUserViewModel
+    private var progressState = false
+    private var errorState = false
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentUsersBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true);
         return binding.root
@@ -48,18 +45,34 @@ class UsersFragment : Fragment() {
         userAdapter = UsersAdapter(requireActivity())
         binding.rvUsers.layoutManager = LinearLayoutManager(activity)
         binding.rvUsers.adapter = userAdapter
-        action()
 
-        searchUserViewModel.listSearchedUser.observe(viewLifecycleOwner, {
-            userAdapter.setUsers(it.items)
-
+        userAdapter.setOnClickItemListener(object : OnItemClickListener {
+            override fun onItemClick(item: View, userSearch: User) {
+                val gotoDetailFragment = UsersFragmentDirections.actionNavigationUsersToUserDetailFragment(userSearch.login)
+                findNavController().navigate(gotoDetailFragment)
+            }
         })
 
-        searchUserViewModel.showProgress.observe(viewLifecycleOwner, {
-            if (it)
-                binding.progressBar.visibility = View.VISIBLE
-            else
-                binding.progressBar.visibility = View.GONE
+        searchUserViewModel.listSearchedUser.observe(viewLifecycleOwner, { userList ->
+            if(userList.items.isEmpty()){
+                binding.imgMessages.visibility = View.VISIBLE
+                binding.tvMessages.text = "Data tidak ditemukan, coba kata kunci lain"
+                binding.tvMessages.visibility = View.VISIBLE
+                binding.rvUsers.visibility = View.GONE
+            }else{
+                userAdapter.setUsers(userList.items)
+                binding.rvUsers.visibility = View.VISIBLE
+            }
+        })
+
+        searchUserViewModel.showProgress.observe(viewLifecycleOwner, { progressState ->
+            this.progressState = progressState
+            showProgress(progressState)
+        })
+
+        searchUserViewModel.errorState.observe(viewLifecycleOwner, { errorState ->
+            this.errorState = errorState
+            showMessageError(errorState)
         })
 
         val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
@@ -67,23 +80,12 @@ class UsersFragment : Fragment() {
         binding.searchView.queryHint = requireActivity().getString(R.string.search_hint)
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                binding.progressBar.visibility = View.VISIBLE
-                binding.tvNotFound.visibility = View.GONE
+                binding.tvMessages.visibility = View.GONE
                 query?.let { searchUserViewModel.searchUsers(it) }
                 return true
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 return false
-            }
-        })
-    }
-
-    private fun action() {
-        userAdapter.setOnClickItemListener(object : OnItemClickListener {
-            override fun onItemClick(item: View, userSearch: User) {
-                val gotoDetailFragment = UsersFragmentDirections.actionNavigationUsersToUserDetailFragment(userSearch.login)
-                findNavController().navigate(gotoDetailFragment)
             }
         })
     }
@@ -101,5 +103,30 @@ class UsersFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun showProgress(state: Boolean){
+        if(state){
+            binding.tvMessages.visibility = View.GONE
+            binding.imgMessages.visibility = View.GONE
+            binding.rvUsers.visibility = View.GONE
+            binding.shimmerLoading.visibility = View.VISIBLE
+            binding.shimmerLoading.startShimmerAnimation()
+
+        }else{
+            binding.shimmerLoading.stopShimmerAnimation()
+            binding.shimmerLoading.visibility = View.GONE
+        }
+    }
+
+    fun showMessageError(state: Boolean){
+        if(state){
+            binding.tvMessages.visibility = View.VISIBLE
+            binding.imgMessages.visibility = View.VISIBLE
+            binding.tvMessages.text = "Terjadi kesalahan, mohon periksa kembali koneksi"
+        }else{
+            binding.tvMessages.visibility = View.GONE
+            binding.imgMessages.visibility = View.GONE
+        }
     }
 }

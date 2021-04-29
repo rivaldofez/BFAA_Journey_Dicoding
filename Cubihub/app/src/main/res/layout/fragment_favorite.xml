@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/background"
     tools:context=".FavoriteFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -29,21 +29,66 @@
     </androidx.appcompat.widget.Toolbar>
 
 
-    <TextView
-        android:id="@+id/tv_not_found"
-        android:layout_width="@dimen/_150sdp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/data_not_found"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_20ssp"
-        app:drawableTopCompat="@drawable/add_data"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_favorite">
+
+        <ImageView
+            android:id="@+id/img_messages"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:src="@drawable/list_favorite"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_messages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Belum ada data ditambahkan"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15ssp"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_loading"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_favorite" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_favorite">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/shimmer_user_placeholder" />
+            <include layout="@layout/shimmer_user_placeholder" />
+            <include layout="@layout/shimmer_user_placeholder" />
+            <include layout="@layout/shimmer_user_placeholder" />
+            <include layout="@layout/shimmer_user_placeholder" />
+            <include layout="@layout/shimmer_user_placeholder" />
+            <include layout="@layout/shimmer_user_placeholder" />
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favorite_user"

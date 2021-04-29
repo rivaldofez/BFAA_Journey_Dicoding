@@ -14,7 +14,7 @@ import retrofit2.Response
 class DetailUserRepository(val application: Application) {
     val detailUser = MutableLiveData<DetailUser>()
     val showProgress = MutableLiveData<Boolean>()
-    var errorState = false
+    val errorState = MutableLiveData<Boolean>()
 
     fun loadDetailUser(username :String){
         showProgress.value = true
@@ -28,10 +28,12 @@ class DetailUserRepository(val application: Application) {
                     detailUser.postValue(null)
                 }
                 showProgress.value = false
+                errorState.value = false
             }
             override fun onFailure(call: Call<DetailUser>, t: Throwable) {
                 detailUser.postValue(null)
                 showProgress.value = false
+                errorState.value = true
             }
         })
     }

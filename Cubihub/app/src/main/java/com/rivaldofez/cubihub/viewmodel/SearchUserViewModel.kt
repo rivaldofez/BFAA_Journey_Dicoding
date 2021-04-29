@@ -10,15 +10,13 @@ import com.rivaldofez.cubihub.repository.SearchUserRepository
 class SearchUserViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = SearchUserRepository(application)
     val showProgress: LiveData<Boolean>
+    val errorState : LiveData<Boolean>
     val listSearchedUser : LiveData<UserList>
 
     init {
         this.listSearchedUser = repository.listSearchedUser
         this.showProgress = repository.showProgress
-    }
-
-    fun changeState(){
-        repository.changeState()
+        this.errorState = repository.errorState
     }
 
     fun searchUsers(keyword: String){

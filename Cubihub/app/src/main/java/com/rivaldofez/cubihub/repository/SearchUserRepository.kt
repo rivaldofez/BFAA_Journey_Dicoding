@@ -13,7 +13,7 @@ import retrofit2.Response
 class SearchUserRepository(val application: Application) {
     val listSearchedUser = MutableLiveData<UserList>()
     val showProgress = MutableLiveData<Boolean>()
-    var errorState = false
+    var errorState = MutableLiveData<Boolean>()
 
     fun searchUsers(keyword: String){
         showProgress.value = true
@@ -27,17 +27,14 @@ class SearchUserRepository(val application: Application) {
                     listSearchedUser.postValue(null)
                 }
                 showProgress.value = false
+                errorState.value = false
             }
-
             override fun onFailure(call: Call<UserList>, t: Throwable) {
                 listSearchedUser.postValue(null)
                 showProgress.value = false
+                errorState.value = true
             }
         })
-    }
-
-    fun changeState(){
-        showProgress.value = !(showProgress.value != null && showProgress.value!!)
     }
 }
 

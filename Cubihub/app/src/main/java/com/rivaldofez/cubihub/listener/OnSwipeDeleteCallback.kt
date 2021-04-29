@@ -15,7 +15,5 @@ abstract class OnSwipeDeleteCallback(context: Context, dragDir:Int, swipeDir: In
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        TODO("Not yet implemented")
     }
-
 }

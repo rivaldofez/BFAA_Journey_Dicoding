@@ -22,6 +22,7 @@ class FavoriteFragment : Fragment() {
     private lateinit var binding: FragmentFavoriteBinding
     private lateinit var favoriteUserAdapter : FavoriteAdapter
     private lateinit var favoriteUserViewModel: FavoriteUserViewModel
+    private var progressState = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,9 +46,23 @@ class FavoriteFragment : Fragment() {
 
         favoriteUserViewModel.getFavoriteUsers(requireActivity())
 
-        favoriteUserViewModel.listFavoriteUser.observe(viewLifecycleOwner, {
-            Log.d("Testun", "itttt"+ it.toString())
-            favoriteUserAdapter.setFavoriteUsers(it)
+        favoriteUserViewModel.listFavoriteUser.observe(viewLifecycleOwner, { listDetailUser ->
+            if(listDetailUser.isEmpty()){
+                binding.imgMessages.visibility = View.VISIBLE
+                binding.tvMessages.text = "Data tidak ditemukan, coba kata kunci lain"
+                binding.tvMessages.visibility = View.VISIBLE
+                binding.rvFavoriteUser.visibility = View.GONE
+            }else{
+                binding.imgMessages.visibility = View.GONE
+                binding.tvMessages.visibility = View.GONE
+                binding.rvFavoriteUser.visibility = View.VISIBLE
+                favoriteUserAdapter.setFavoriteUsers(listDetailUser)
+            }
+        })
+
+        favoriteUserViewModel.showProgress.observe(viewLifecycleOwner, {
+            this.progressState = progressState
+            showProgress(progressState)
         })
 
         val onItemSwiped = object : OnSwipeDeleteCallback(requireContext(), 0, ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)){
@@ -73,5 +88,19 @@ class FavoriteFragment : Fragment() {
                 gotoDetailFragment?.let { findNavController().navigate(it) }
             }
         })
+    }
+
+    fun showProgress(state: Boolean){
+        if(state){
+            binding.tvMessages.visibility = View.GONE
+            binding.imgMessages.visibility = View.GONE
+            binding.rvFavoriteUser.visibility = View.GONE
+            binding.shimmerLoading.visibility = View.VISIBLE
+            binding.shimmerLoading.startShimmerAnimation()
+
+        }else{
+            binding.shimmerLoading.stopShimmerAnimation()
+            binding.shimmerLoading.visibility = View.GONE
+        }
     }
 }
