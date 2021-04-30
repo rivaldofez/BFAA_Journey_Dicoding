@@ -3,12 +3,11 @@ package com.rivaldofez.cubihub
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.rivaldofez.cubihub.database.SettingsPreference
-import com.rivaldofez.cubihub.databinding.FragmentFollowBinding
 import com.rivaldofez.cubihub.databinding.FragmentSettingsBinding
 import java.util.*
 
@@ -47,7 +46,7 @@ class SettingsFragment : Fragment() {
         })
 
         binding.swAlarm.setOnCheckedChangeListener({_, isChecked->
-            val time = "15:04"
+            val time = "12:49"
             if(isChecked){
                 alarmReceiver.setRepeatingAlarm(requireContext(), time, "Waktu untuk kembali ke aplikasi")
                 binding.tvAlarmStatus.text = "Alarm Aktif"

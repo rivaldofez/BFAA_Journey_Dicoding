@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rivaldofez.cubihub.database.DetailDatabaseUser.CONTENT_URI
-import com.rivaldofez.cubihub.helper.toContentValues
 import com.rivaldofez.cubihub.helper.toDetailUser
 import com.rivaldofez.cubihub.helper.toListUser
 import com.rivaldofez.cubihub.model.DetailUser
@@ -58,14 +57,6 @@ class FavoriteUserViewModel: ViewModel() {
             }
         }
         showProgress.postValue(false)
-    }
-
-    fun insertUser(context: Context, detailUser: DetailUser){
-        viewModelScope.launch(Dispatchers.IO) {
-            showProgress.postValue(true)
-            context.contentResolver.insert(CONTENT_URI, detailUser.toContentValues())
-            showProgress.postValue(false)
-        }
     }
 
     fun deleteUser(context: Context, id: Int){
