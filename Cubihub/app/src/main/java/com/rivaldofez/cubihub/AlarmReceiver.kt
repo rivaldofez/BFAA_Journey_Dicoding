@@ -1,9 +1,6 @@
 package com.rivaldofez.cubihub
 
-import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -52,6 +49,12 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private fun showAlarmNotification(context: Context, title: String, message: String, notifId: Int) {
+        val goToAppsIntent = Intent(context.applicationContext, MainActivity::class.java)
+        val pendingIntent = TaskStackBuilder.create(context.applicationContext)
+            .addParentStack(MainActivity::class.java)
+            .addNextIntent(goToAppsIntent)
+            .getPendingIntent(110, PendingIntent.FLAG_UPDATE_CURRENT)
+
         val channelId = "Channel_1"
         val channelName = "Cubihub Alarm"
         val notificationManagerCompat = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -59,6 +62,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_alarm_on)
             .setContentTitle(title)
+            .setContentIntent(pendingIntent)
             .setContentText(message)
             .setColor(ContextCompat.getColor(context, android.R.color.transparent))
             .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))

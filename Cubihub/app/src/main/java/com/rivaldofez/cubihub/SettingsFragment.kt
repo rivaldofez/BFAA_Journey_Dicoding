@@ -47,7 +47,7 @@ class SettingsFragment : Fragment() {
         })
 
         binding.swAlarm.setOnCheckedChangeListener({_, isChecked->
-            val time = "09:00"
+            val time = "15:04"
             if(isChecked){
                 alarmReceiver.setRepeatingAlarm(requireContext(), time, "Waktu untuk kembali ke aplikasi")
                 binding.tvAlarmStatus.text = "Alarm Aktif"
