@@ -3,12 +3,12 @@ package com.rivaldofez.cubihub.adapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.rivaldofez.cubihub.FollowFragment
+import com.rivaldofez.cubihub.ui.FollowFragment
 
 class DetailPagerAdapter (activity: AppCompatActivity) : FragmentStateAdapter(activity) {
     companion object{
-        val endFollowers = "followers"
-        val endFollowing = "following"
+        const val endFollowers = "followers"
+        const val endFollowing = "following"
     }
     var username:String? = null
 

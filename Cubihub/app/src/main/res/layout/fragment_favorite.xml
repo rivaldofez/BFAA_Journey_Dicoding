@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".FavoriteFragment">
+    tools:context=".ui.FavoriteFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_favorite"
@@ -28,7 +28,6 @@
             app:tint="@color/white" />
     </androidx.appcompat.widget.Toolbar>
 
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,7 +40,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_favorite">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_favorite"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/img_messages"

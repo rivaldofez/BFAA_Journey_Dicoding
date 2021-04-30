@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
+import com.rivaldofez.consumerapp.adapter.DetailPagerAdapter
 import com.rivaldofez.consumerapp.databinding.FragmentUserDetailBinding
-import com.rivaldofez.cubihub.adapter.DetailPagerAdapter
+import com.rivaldofez.consumerapp.viewmodel.DetailUserViewModel
+import com.rivaldofez.consumerapp.viewmodel.FavoriteUserViewModel
 import com.rivaldofez.cubihub.model.DetailUser
-import com.rivaldofez.cubihub.viewmodel.DetailUserViewModel
-import com.rivaldofez.cubihub.viewmodel.FavoriteUserViewModel
 
 
 class UserDetailFragment : Fragment() {
@@ -30,13 +30,13 @@ class UserDetailFragment : Fragment() {
     private lateinit var username: String
     private lateinit var detailUserViewModel: DetailUserViewModel
     private lateinit var favoriteUserViewModel: FavoriteUserViewModel
-    var isFavoriteUser = false
+    private var isFavoriteUser = false
     private lateinit var favoriteUser: DetailUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentUserDetailBinding.inflate(inflater,container,false)
         return binding.root

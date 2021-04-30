@@ -1,4 +1,4 @@
-package com.rivaldofez.cubihub.helper
+package com.rivaldofez.consumerapp.helper
 
 const val USER_ID = "id"
 const val USER_AVATAR_URL = "avatar_url"

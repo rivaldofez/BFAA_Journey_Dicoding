@@ -1,7 +1,6 @@
 package com.rivaldofez.cubihub.listener
 
 import android.view.View
-import com.rivaldofez.cubihub.model.DetailUser
 import com.rivaldofez.cubihub.model.User
 
 interface OnItemClickListener {

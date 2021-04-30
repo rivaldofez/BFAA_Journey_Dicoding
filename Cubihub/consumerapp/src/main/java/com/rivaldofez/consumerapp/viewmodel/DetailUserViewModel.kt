@@ -1,10 +1,10 @@
-package com.rivaldofez.cubihub.viewmodel
+package com.rivaldofez.consumerapp.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import com.rivaldofez.consumerapp.repository.DetailUserRepository
 import com.rivaldofez.cubihub.model.DetailUser
-import com.rivaldofez.cubihub.repository.DetailUserRepository
 
 class DetailUserViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = DetailUserRepository()
@@ -14,10 +14,6 @@ class DetailUserViewModel(application: Application) : AndroidViewModel(applicati
     init {
         this.showProgress = repository.showProgress
         this.detailUser = repository.detailUser
-    }
-
-    fun changeState(){
-        repository.changeState()
     }
 
     fun loadDetailUser(username :String){

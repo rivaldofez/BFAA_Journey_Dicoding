@@ -1,4 +1,4 @@
-package com.rivaldofez.cubihub
+package com.rivaldofez.cubihub.service
 
 import android.app.AlarmManager
 import android.app.NotificationChannel
@@ -12,6 +12,8 @@ import android.os.Build
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import com.rivaldofez.cubihub.R
+import com.rivaldofez.cubihub.ui.MainActivity
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*

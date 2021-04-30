@@ -1,4 +1,4 @@
-package com.rivaldofez.cubihub.adapter
+package com.rivaldofez.consumerapp.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rivaldofez.consumerapp.R
 import com.rivaldofez.consumerapp.databinding.ItemUserBinding
-import com.rivaldofez.cubihub.listener.OnFavoriteClickListener
+import com.rivaldofez.consumerapp.listener.OnFavoriteClickListener
 import com.rivaldofez.cubihub.model.DetailUser
 
 class FavoriteAdapter(val context: Context): RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
@@ -44,23 +44,21 @@ class FavoriteAdapter(val context: Context): RecyclerView.Adapter<FavoriteAdapte
 
     inner class FavoriteViewHolder(private val binding: ItemUserBinding): RecyclerView.ViewHolder(binding.root) {
         fun bindModel(detailUser: DetailUser){
-            with(binding){
-                if(detailUser.login != "null")
-                    binding.tvUsername.text = detailUser.login
-                else
-                    binding.tvUsername.text = context.getString(R.string.nulldata)
+            if(detailUser.login != "null")
+                binding.tvUsername.text = detailUser.login
+            else
+                binding.tvUsername.text = context.getString(R.string.nulldata)
 
-                if(detailUser.type != "null")
-                    binding.tvType.text = detailUser.type
-                else
-                    binding.tvType.text = context.getString(R.string.nulldata)
+            if(detailUser.type != "null")
+                binding.tvType.text = detailUser.type
+            else
+                binding.tvType.text = context.getString(R.string.nulldata)
 
-                if(detailUser.html_url != "null")
-                    binding.tvUrl.text = detailUser.html_url
-                else
-                    binding.tvUrl.text = context.getString(R.string.nulldata)
-                Glide.with(context).load(detailUser.avatar_url).into(binding.imgAvatar)
-            }
+            if(detailUser.html_url != "null")
+                binding.tvUrl.text = detailUser.html_url
+            else
+                binding.tvUrl.text = context.getString(R.string.nulldata)
+            Glide.with(context).load(detailUser.avatar_url).into(binding.imgAvatar)
         }
 
         init {

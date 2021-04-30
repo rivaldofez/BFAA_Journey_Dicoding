@@ -11,12 +11,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.rivaldofez.consumerapp.adapter.FavoriteAdapter
 import com.rivaldofez.consumerapp.databinding.FragmentFavoriteBinding
-import com.rivaldofez.cubihub.adapter.FavoriteAdapter
-import com.rivaldofez.cubihub.listener.OnFavoriteClickListener
-import com.rivaldofez.cubihub.listener.OnSwipeDeleteCallback
+import com.rivaldofez.consumerapp.listener.OnFavoriteClickListener
+import com.rivaldofez.consumerapp.listener.OnSwipeDeleteCallback
+import com.rivaldofez.consumerapp.viewmodel.FavoriteUserViewModel
 import com.rivaldofez.cubihub.model.DetailUser
-import com.rivaldofez.cubihub.viewmodel.FavoriteUserViewModel
 
 class FavoriteFragment : Fragment() {
     private lateinit var binding: FragmentFavoriteBinding
@@ -27,7 +27,7 @@ class FavoriteFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFavoriteBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -60,14 +60,17 @@ class FavoriteFragment : Fragment() {
             }
         })
 
-        favoriteUserViewModel.showProgress.observe(viewLifecycleOwner, {
+        favoriteUserViewModel.showProgress.observe(viewLifecycleOwner, { progressState->
             this.progressState = progressState
             showProgress(progressState)
         })
 
-        val onItemSwiped = object : OnSwipeDeleteCallback(requireContext(), 0, ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)){
+        val onItemSwiped = object : OnSwipeDeleteCallback(
+            0,
+            ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)
+        ){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                var selectedItems = favoriteUserAdapter.getSelectedItem(viewHolder.adapterPosition)
+                val selectedItems = favoriteUserAdapter.getSelectedItem(viewHolder.adapterPosition)
                 favoriteUserViewModel.deleteUser(requireActivity(), selectedItems.id)
                 favoriteUserAdapter.deleteSelectedItem(viewHolder.adapterPosition)
             }
@@ -92,7 +95,7 @@ class FavoriteFragment : Fragment() {
         })
     }
 
-    fun showProgress(state: Boolean){
+    private fun showProgress(state: Boolean){
         if(state){
             binding.tvMessages.visibility = View.GONE
             binding.imgMessages.visibility = View.GONE

@@ -1,4 +1,4 @@
-package com.rivaldofez.cubihub.listener
+package com.rivaldofez.consumerapp.listener
 
 import android.view.View
 import com.rivaldofez.cubihub.model.DetailUser

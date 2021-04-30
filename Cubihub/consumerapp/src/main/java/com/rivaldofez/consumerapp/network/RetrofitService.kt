@@ -1,22 +1,13 @@
-package com.rivaldofez.cubihub.network
+package com.rivaldofez.consumerapp.network
 
+import com.rivaldofez.consumerapp.model.User
 import com.rivaldofez.cubihub.model.DetailUser
-import com.rivaldofez.cubihub.model.User
-import com.rivaldofez.cubihub.model.UserList
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface RetrofitService {
-
-    @GET("search/users")
-    fun searchUsers(
-        @Header("Authorization") token : String,
-        @Query("q") keyword: String
-    ): Call<UserList>
-
     @GET("users/{username}")
     fun getDetailUser(
         @Header("Authorization") token: String,

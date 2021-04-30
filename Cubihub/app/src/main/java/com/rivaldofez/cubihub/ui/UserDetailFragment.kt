@@ -1,7 +1,6 @@
-package com.rivaldofez.cubihub
+package com.rivaldofez.cubihub.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
+import com.rivaldofez.cubihub.R
 import com.rivaldofez.cubihub.adapter.DetailPagerAdapter
 import com.rivaldofez.cubihub.databinding.FragmentUserDetailBinding
 import com.rivaldofez.cubihub.model.DetailUser
@@ -31,13 +31,13 @@ class UserDetailFragment : Fragment() {
     private lateinit var username: String
     private lateinit var detailUserViewModel: DetailUserViewModel
     private lateinit var favoriteUserViewModel: FavoriteUserViewModel
-    var isFavoriteUser = false
     private lateinit var favoriteUser: DetailUser
+    private var isFavoriteUser = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentUserDetailBinding.inflate(inflater,container,false)
         return binding.root
@@ -62,7 +62,7 @@ class UserDetailFragment : Fragment() {
             setIconButton(isFavoriteUser)
         })
 
-        binding.btnFavorite.setOnClickListener(View.OnClickListener {
+        binding.btnFavorite.setOnClickListener({
             if(isFavoriteUser){
                 favoriteUserViewModel.deleteUser(requireContext().applicationContext, favoriteUser.id)
                 isFavoriteUser=!isFavoriteUser
@@ -85,7 +85,7 @@ class UserDetailFragment : Fragment() {
         detailPagerAdapter.username = username
 
         binding.viewPager.adapter = detailPagerAdapter
-        TabLayoutMediator(binding.tabs, binding.viewPager, ) { tab, position ->
+        TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
 

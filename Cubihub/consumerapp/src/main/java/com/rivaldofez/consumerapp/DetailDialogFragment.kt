@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.rivaldofez.consumerapp.databinding.FragmentDetailDialogBinding
-import com.rivaldofez.cubihub.model.User
+import com.rivaldofez.consumerapp.model.User
 
 class DetailDialogFragment : DialogFragment() {
 
@@ -17,14 +17,14 @@ class DetailDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var margs = arguments
+        val margs = arguments
         user = margs!!.getParcelable<User>(FollowFragment.KEY_DETAIL_USER) as User
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDetailDialogBinding.inflate(inflater,container,false)
         return binding.root
     }

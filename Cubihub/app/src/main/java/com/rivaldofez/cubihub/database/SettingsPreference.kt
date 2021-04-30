@@ -3,6 +3,7 @@ package com.rivaldofez.cubihub.database
 import android.content.Context
 
 class SettingsPreference(context: Context) {
+
     companion object {
         private const val PREFERENCE_NAME = "user_settings"
         private const val ALARM_STATE = "alarm_state"

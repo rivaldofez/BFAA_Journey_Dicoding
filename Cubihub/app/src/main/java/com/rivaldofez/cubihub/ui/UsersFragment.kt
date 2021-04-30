@@ -1,9 +1,8 @@
-package com.rivaldofez.cubihub
+package com.rivaldofez.cubihub.ui
 
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.rivaldofez.cubihub.R
 import com.rivaldofez.cubihub.adapter.UsersAdapter
 import com.rivaldofez.cubihub.databinding.FragmentUsersBinding
 import com.rivaldofez.cubihub.listener.OnItemClickListener
@@ -27,9 +27,9 @@ class UsersFragment : Fragment() {
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentUsersBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -48,7 +48,8 @@ class UsersFragment : Fragment() {
 
         userAdapter.setOnClickItemListener(object : OnItemClickListener {
             override fun onItemClick(item: View, userSearch: User) {
-                val gotoDetailFragment = UsersFragmentDirections.actionNavigationUsersToUserDetailFragment(userSearch.login)
+                val gotoDetailFragment =
+                    UsersFragmentDirections.actionNavigationUsersToUserDetailFragment(userSearch.login)
                 findNavController().navigate(gotoDetailFragment)
             }
         })
@@ -91,7 +92,7 @@ class UsersFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear();
+        menu.clear()
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.home_menu, menu)
     }
@@ -119,7 +120,7 @@ class UsersFragment : Fragment() {
         }
     }
 
-    fun showMessageError(state: Boolean){
+    private fun showMessageError(state: Boolean){
         if(state){
             binding.tvMessages.visibility = View.VISIBLE
             binding.imgMessages.visibility = View.VISIBLE

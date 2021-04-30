@@ -1,11 +1,11 @@
-package com.rivaldofez.cubihub
+package com.rivaldofez.cubihub.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rivaldofez.cubihub.adapter.DetailPagerAdapter
@@ -15,14 +15,14 @@ import com.rivaldofez.cubihub.listener.OnItemClickListener
 import com.rivaldofez.cubihub.model.User
 import com.rivaldofez.cubihub.viewmodel.FollowViewModel
 
-class FollowFragment() : Fragment() {
+class FollowFragment : Fragment() {
     companion object{
-        val KEY_USERNAME = "username"
-        val KEY_OPTION = "option"
-        val KEY_DETAIL_USER = "detail"
+        const val KEY_USERNAME = "username"
+        const val KEY_OPTION = "option"
+        const val KEY_DETAIL_USER = "detail"
     }
 
-    val layoutManager = LinearLayoutManager(activity)
+    private val layoutManager = LinearLayoutManager(activity)
     var username:String? = null
     var option:String? = null
     private lateinit var binding: FragmentFollowBinding
@@ -32,7 +32,7 @@ class FollowFragment() : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFollowBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -52,7 +52,7 @@ class FollowFragment() : Fragment() {
             action(followerAdapter)
 
             followerViewModel = ViewModelProvider(requireActivity() as AppCompatActivity,ViewModelProvider.NewInstanceFactory()).get(FollowViewModel::class.java)
-            followerViewModel.initializeModel(requireContext())
+            followerViewModel.initializeModel()
             username?.let { username -> option?.let { option -> followerViewModel.getFollowUser(username, option) } }
 
             followerViewModel.listFollowsUser.observe(viewLifecycleOwner,{
@@ -72,7 +72,7 @@ class FollowFragment() : Fragment() {
 
             action(followingAdapter)
             followingViewModel = ViewModelProvider(requireActivity() as AppCompatActivity,ViewModelProvider.NewInstanceFactory()).get(FollowViewModel::class.java)
-            followingViewModel.initializeModel(requireContext())
+            followingViewModel.initializeModel()
 
             username?.let { username -> option?.let { option -> followingViewModel.getFollowUser(username, option) } }
 

@@ -1,27 +1,18 @@
 package com.rivaldofez.cubihub.provider
 
-import android.app.Application
 import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
-import android.database.DatabaseUtils
 import android.net.Uri
-import android.util.Log
-import com.rivaldofez.cubihub.database.DetailUserDao
 import com.rivaldofez.cubihub.database.DetailUserDatabase
 import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.AUTHORITY
 import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.CONTENT_URI
 import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.TABLE_NAME
 import com.rivaldofez.cubihub.database.DetailUserDatabase.Companion.getDatabase
-import com.rivaldofez.cubihub.helper.toDetailUser
-import com.rivaldofez.cubihub.helper.toListUser
-import com.rivaldofez.cubihub.helper.toUserEntity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.rivaldofez.cubihub.helper.toDetailUserModel
 
-class UserProvider() : ContentProvider() {
+class UserProvider : ContentProvider() {
 
     companion object {
         private const val USER = 1
@@ -31,9 +22,7 @@ class UserProvider() : ContentProvider() {
     }
 
     init {
-        // content://com.rivaldofez.cubihub/user
         sUriMatcher.addURI(AUTHORITY, TABLE_NAME, USER)
-        // content://com.rivaldofez.cubihub/user/id
         sUriMatcher.addURI(AUTHORITY, "$TABLE_NAME/#", USER_ID)
     }
 
@@ -59,7 +48,7 @@ class UserProvider() : ContentProvider() {
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
         val added: Long = when (USER) {
-            sUriMatcher.match(uri) -> values?.toUserEntity()?.let {
+            sUriMatcher.match(uri) -> values?.toDetailUserModel()?.let {
                 db.detailUserDao().addUser(
                     it
                 )

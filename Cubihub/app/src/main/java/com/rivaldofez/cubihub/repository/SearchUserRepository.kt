@@ -1,6 +1,5 @@
 package com.rivaldofez.cubihub.repository
 
-import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.rivaldofez.cubihub.BuildConfig
 import com.rivaldofez.cubihub.model.UserList
@@ -10,7 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchUserRepository(val application: Application) {
+class SearchUserRepository {
     val listSearchedUser = MutableLiveData<UserList>()
     val showProgress = MutableLiveData<Boolean>()
     var errorState = MutableLiveData<Boolean>()

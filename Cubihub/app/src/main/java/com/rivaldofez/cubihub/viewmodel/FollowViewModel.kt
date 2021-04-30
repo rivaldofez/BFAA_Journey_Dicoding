@@ -1,6 +1,5 @@
 package com.rivaldofez.cubihub.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.rivaldofez.cubihub.model.User
@@ -11,18 +10,13 @@ class FollowViewModel: ViewModel() {
     private lateinit var repository :FollowRepository
     lateinit var listFollowsUser: LiveData<ArrayList<User>>
     lateinit var showProgress: LiveData<Boolean>
-    var errorState = false
-
-    fun changeState(){
-        repository.changeState()
-    }
 
     fun getFollowUser(username: String, option: String) {
         repository.getFollowUser(username, option)
     }
 
-    fun initializeModel(context: Context){
-        repository = FollowRepository(context)
+    fun initializeModel(){
+        repository = FollowRepository()
         this.listFollowsUser = repository.listFollowsUser
         this.showProgress = repository.showProgress
     }

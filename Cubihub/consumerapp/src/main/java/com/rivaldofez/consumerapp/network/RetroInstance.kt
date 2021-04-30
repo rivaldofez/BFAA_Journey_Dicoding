@@ -1,4 +1,4 @@
-package com.rivaldofez.cubihub.network
+package com.rivaldofez.consumerapp.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetroInstance {
     companion object {
-        val baseUrl = "https://api.github.com/"
+        private const val baseUrl = "https://api.github.com/"
 
         fun getRetroFitInstance() : Retrofit {
             val logging = HttpLoggingInterceptor()

@@ -1,7 +1,7 @@
-package com.rivaldofez.cubihub.listener
+package com.rivaldofez.consumerapp.listener
 
 import android.view.View
-import com.rivaldofez.cubihub.model.User
+import com.rivaldofez.consumerapp.model.User
 
 interface OnItemClickListener {
     fun onItemClick(item: View, userSearch: User)

@@ -1,4 +1,4 @@
-package com.rivaldofez.cubihub
+package com.rivaldofez.cubihub.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,14 +17,14 @@ class DetailDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var margs = arguments
+        val margs = arguments
         user = margs!!.getParcelable<User>(FollowFragment.KEY_DETAIL_USER) as User
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDetailDialogBinding.inflate(inflater,container,false)
         return binding.root
     }

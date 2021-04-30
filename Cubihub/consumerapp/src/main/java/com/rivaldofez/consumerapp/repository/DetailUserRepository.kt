@@ -1,15 +1,15 @@
-package com.rivaldofez.cubihub.repository
+package com.rivaldofez.consumerapp.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.rivaldofez.consumerapp.BuildConfig
+import com.rivaldofez.consumerapp.network.RetroInstance
+import com.rivaldofez.consumerapp.network.RetrofitService
 import com.rivaldofez.cubihub.model.DetailUser
-import com.rivaldofez.cubihub.network.RetroInstance
-import com.rivaldofez.cubihub.network.RetrofitService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailUserRepository() {
+class DetailUserRepository {
     val detailUser = MutableLiveData<DetailUser>()
     val showProgress = MutableLiveData<Boolean>()
     val errorState = MutableLiveData<Boolean>()

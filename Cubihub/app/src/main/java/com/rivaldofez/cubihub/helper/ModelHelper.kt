@@ -3,7 +3,7 @@ package com.rivaldofez.cubihub.helper
 import android.content.ContentValues
 import android.database.Cursor
 import com.rivaldofez.cubihub.model.DetailUser
-import java.util.ArrayList
+import java.util.*
 
 fun DetailUser.toContentValues(): ContentValues =
     ContentValues().apply {
@@ -41,10 +41,13 @@ fun DetailUser.toContentValues(): ContentValues =
         put(USER_URL, url)
     }
 
-fun ContentValues.toUserEntity(): DetailUser =
+fun ContentValues.toDetailUserModel(): DetailUser =
     DetailUser(
         id = getAsInteger(USER_ID),
         avatar_url = getAsString(USER_AVATAR_URL),
+        location = getAsString(USER_LOCATION),
+        login = getAsString(USER_LOGIN),
+        name = getAsString(USER_NAME),
         bio = getAsString(USER_BIO),
         blog = getAsString(USER_BLOG),
         company = getAsString(USER_COMPANY),
@@ -59,9 +62,6 @@ fun ContentValues.toUserEntity(): DetailUser =
         gravatar_id = getAsString(USER_GRAVATAR_ID),
         hireable = getAsString(USER_HIREABLE),
         html_url = getAsString(USER_HTML_URL),
-        location = getAsString(USER_LOCATION),
-        login = getAsString(USER_LOGIN),
-        name = getAsString(USER_NAME),
         node_id = getAsString(USER_NODE_ID),
         organizations_url = getAsString(USER_ORGANIZATIONS_URL),
         public_gists = getAsInteger(USER_PUBLIC_GISTS),
@@ -79,38 +79,38 @@ fun ContentValues.toUserEntity(): DetailUser =
 
 fun Cursor.toDetailUser(): DetailUser =
     DetailUser(
-        getInt(getColumnIndexOrThrow(USER_ID)),
-        getString(getColumnIndexOrThrow(USER_AVATAR_URL)),
-        getString(getColumnIndexOrThrow(USER_BIO)),
-        getString(getColumnIndexOrThrow(USER_BLOG)),
-        getString(getColumnIndexOrThrow(USER_COMPANY)),
-        getString(getColumnIndexOrThrow(USER_CREATED_AT)),
-        getString(getColumnIndexOrThrow(USER_EMAIL)),
-        getString(getColumnIndexOrThrow(USER_EVENTS_URL)),
-        getInt(getColumnIndexOrThrow(USER_FOLLOWERS)),
-        getString(getColumnIndexOrThrow(USER_FOLLOWERS_URL)),
-        getInt(getColumnIndexOrThrow(USER_FOLLOWING)),
-        getString(getColumnIndexOrThrow(USER_FOLLOWING_URL)),
-        getString(getColumnIndexOrThrow(USER_GISTS_URL)),
-        getString(getColumnIndexOrThrow(USER_GRAVATAR_ID)),
-        getString(getColumnIndexOrThrow(USER_HIREABLE)),
-        getString(getColumnIndexOrThrow(USER_HTML_URL)),
-        getString(getColumnIndexOrThrow(USER_LOCATION)),
-        getString(getColumnIndexOrThrow(USER_LOGIN)),
-        getString(getColumnIndexOrThrow(USER_NAME)),
-        getString(getColumnIndexOrThrow(USER_NODE_ID)),
-        getString(getColumnIndexOrThrow(USER_ORGANIZATIONS_URL)),
-        getInt(getColumnIndexOrThrow(USER_PUBLIC_GISTS)),
-        getInt(getColumnIndexOrThrow(USER_PUBLIC_REPOS)),
-        getString(getColumnIndexOrThrow(USER_RECEIVED_EVENTS_URL)),
-        getString(getColumnIndexOrThrow(USER_REPOS_URL)),
-        (getInt(getColumnIndexOrThrow(USER_SITE_ADMIN)) > 0),
-        getString(getColumnIndexOrThrow(USER_STARRED_URL)),
-        getString(getColumnIndexOrThrow(USER_SUBSCRIPTIONS_URL)),
-        getString(getColumnIndexOrThrow(USER_TWITTER_USERNAME)),
-        getString(getColumnIndexOrThrow(USER_TYPE)),
-        getString(getColumnIndexOrThrow(USER_UPDATED_AT)),
-        getString(getColumnIndexOrThrow(USER_URL))
+        id = getInt(getColumnIndexOrThrow(USER_ID)),
+        avatar_url = getString(getColumnIndexOrThrow(USER_AVATAR_URL)),
+        bio = getString(getColumnIndexOrThrow(USER_BIO)),
+        blog = getString(getColumnIndexOrThrow(USER_BLOG)),
+        company = getString(getColumnIndexOrThrow(USER_COMPANY)),
+        created_at = getString(getColumnIndexOrThrow(USER_CREATED_AT)),
+        email = getString(getColumnIndexOrThrow(USER_EMAIL)),
+        events_url = getString(getColumnIndexOrThrow(USER_EVENTS_URL)),
+        followers = getInt(getColumnIndexOrThrow(USER_FOLLOWERS)),
+        followers_url = getString(getColumnIndexOrThrow(USER_FOLLOWERS_URL)),
+        following = getInt(getColumnIndexOrThrow(USER_FOLLOWING)),
+        following_url = getString(getColumnIndexOrThrow(USER_FOLLOWING_URL)),
+        gists_url = getString(getColumnIndexOrThrow(USER_GISTS_URL)),
+        gravatar_id = getString(getColumnIndexOrThrow(USER_GRAVATAR_ID)),
+        hireable = getString(getColumnIndexOrThrow(USER_HIREABLE)),
+        html_url = getString(getColumnIndexOrThrow(USER_HTML_URL)),
+        location = getString(getColumnIndexOrThrow(USER_LOCATION)),
+        login = getString(getColumnIndexOrThrow(USER_LOGIN)),
+        name = getString(getColumnIndexOrThrow(USER_NAME)),
+        node_id = getString(getColumnIndexOrThrow(USER_NODE_ID)),
+        organizations_url = getString(getColumnIndexOrThrow(USER_ORGANIZATIONS_URL)),
+        public_gists = getInt(getColumnIndexOrThrow(USER_PUBLIC_GISTS)),
+        public_repos = getInt(getColumnIndexOrThrow(USER_PUBLIC_REPOS)),
+        received_events_url = getString(getColumnIndexOrThrow(USER_RECEIVED_EVENTS_URL)),
+        repos_url = getString(getColumnIndexOrThrow(USER_REPOS_URL)),
+        site_admin = (getInt(getColumnIndexOrThrow(USER_SITE_ADMIN)) > 0),
+        starred_url = getString(getColumnIndexOrThrow(USER_STARRED_URL)),
+        subscriptions_url = getString(getColumnIndexOrThrow(USER_SUBSCRIPTIONS_URL)),
+        twitter_username = getString(getColumnIndexOrThrow(USER_TWITTER_USERNAME)),
+        type = getString(getColumnIndexOrThrow(USER_TYPE)),
+        updated_at = getString(getColumnIndexOrThrow(USER_UPDATED_AT)),
+        url = getString(getColumnIndexOrThrow(USER_URL))
     )
 
 fun Cursor.toListUser(): ArrayList<DetailUser> {

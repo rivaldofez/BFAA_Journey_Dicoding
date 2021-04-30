@@ -1,4 +1,4 @@
-package com.rivaldofez.cubihub.model
+package com.rivaldofez.consumerapp.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

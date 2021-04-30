@@ -1,17 +1,15 @@
 package com.rivaldofez.cubihub.repository
 
-import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.rivaldofez.cubihub.BuildConfig
 import com.rivaldofez.cubihub.model.DetailUser
-import com.rivaldofez.cubihub.model.User
 import com.rivaldofez.cubihub.network.RetroInstance
 import com.rivaldofez.cubihub.network.RetrofitService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailUserRepository(val application: Application) {
+class DetailUserRepository {
     val detailUser = MutableLiveData<DetailUser>()
     val showProgress = MutableLiveData<Boolean>()
     val errorState = MutableLiveData<Boolean>()
@@ -36,9 +34,5 @@ class DetailUserRepository(val application: Application) {
                 errorState.value = true
             }
         })
-    }
-
-    fun changeState(){
-        showProgress.value = !(showProgress.value != null && showProgress.value!!)
     }
 }

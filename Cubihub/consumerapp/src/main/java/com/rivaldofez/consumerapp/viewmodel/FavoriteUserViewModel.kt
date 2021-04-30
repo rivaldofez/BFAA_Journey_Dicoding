@@ -1,4 +1,4 @@
-package com.rivaldofez.cubihub.viewmodel
+package com.rivaldofez.consumerapp.viewmodel
 
 import android.content.Context
 import android.database.Cursor
@@ -6,16 +6,15 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rivaldofez.cubihub.database.DetailDatabaseUser.CONTENT_URI
-import com.rivaldofez.cubihub.helper.toDetailUser
-import com.rivaldofez.cubihub.helper.toListUser
+import com.rivaldofez.consumerapp.database.DetailDatabaseUser.CONTENT_URI
+import com.rivaldofez.consumerapp.helper.toContentValues
+import com.rivaldofez.consumerapp.helper.toListUser
 import com.rivaldofez.cubihub.model.DetailUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class FavoriteUserViewModel: ViewModel() {
     val listFavoriteUser = MutableLiveData<List<DetailUser>>()
-    val favoriteUser = MutableLiveData<DetailUser>()
     val isFavoriteUser = MutableLiveData<Boolean>()
     val showProgress = MutableLiveData<Boolean>()
 
@@ -30,22 +29,9 @@ class FavoriteUserViewModel: ViewModel() {
         }
     }
 
-    fun getFavoriteUserById(context: Context, id: String){
-        val idUri = Uri.parse(CONTENT_URI.toString() + "/" + id)
-        viewModelScope.launch(Dispatchers.IO) {
-            showProgress.postValue(true)
-            val cursor = context.contentResolver.query(idUri,null,null,null, null)
-            if (cursor != null) {
-                cursor.moveToFirst()
-                favoriteUser.postValue(cursor.toDetailUser())
-            }
-            showProgress.postValue(false)
-        }
-    }
-
     fun checkFavoriteUser(context: Context, id: Int){
         showProgress.postValue(true)
-        val idUri = Uri.parse(CONTENT_URI.toString() + "/" + id)
+        val idUri = Uri.parse("$CONTENT_URI/$id")
         viewModelScope.launch(Dispatchers.IO) {
             val cursor = context.contentResolver.query(idUri,null,null,null, null)
             if (cursor != null) {
@@ -59,9 +45,17 @@ class FavoriteUserViewModel: ViewModel() {
         showProgress.postValue(false)
     }
 
+    fun insertUser(context: Context, detailUser: DetailUser){
+        viewModelScope.launch(Dispatchers.IO) {
+            showProgress.postValue(true)
+            context.contentResolver.insert(CONTENT_URI, detailUser.toContentValues())
+            showProgress.postValue(false)
+        }
+    }
+
     fun deleteUser(context: Context, id: Int){
         showProgress.postValue(true)
-        val idUri = Uri.parse(CONTENT_URI.toString() + "/" + id)
+        val idUri = Uri.parse("$CONTENT_URI/$id")
         viewModelScope.launch(Dispatchers.IO) {
             context.contentResolver.delete(idUri,null,null)
         }

@@ -1,4 +1,4 @@
-package com.rivaldofez.cubihub
+package com.rivaldofez.cubihub.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.rivaldofez.cubihub.database.SettingsPreference
 import com.rivaldofez.cubihub.databinding.FragmentSettingsBinding
+import com.rivaldofez.cubihub.service.AlarmReceiver
 import java.util.*
 
 class SettingsFragment : Fragment() {
@@ -19,7 +20,7 @@ class SettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSettingsBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -39,7 +40,7 @@ class SettingsFragment : Fragment() {
             binding.tvAlarmStatus.text = "Alarm Mati"
 
 
-        binding.clChooseLanguage.setOnClickListener(View.OnClickListener {
+        binding.clChooseLanguage.setOnClickListener({
             val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
             startActivity(mIntent)
             binding.tvLanguageStatus.text = Locale.getDefault().displayLanguage

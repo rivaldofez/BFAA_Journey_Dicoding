@@ -1,9 +1,10 @@
-package com.rivaldofez.cubihub
+package com.rivaldofez.cubihub.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.rivaldofez.cubihub.R
 import com.rivaldofez.cubihub.databinding.ActivityMainBinding
 
 
