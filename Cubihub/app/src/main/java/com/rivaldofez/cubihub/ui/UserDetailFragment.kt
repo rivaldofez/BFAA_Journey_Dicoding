@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -64,6 +65,7 @@ class UserDetailFragment : Fragment() {
 
         binding.btnFavorite.setOnClickListener {
             if (isFavoriteUser) {
+                Toast.makeText(requireContext(), getString(R.string.delete_messages,favoriteUser.login), Toast.LENGTH_SHORT).show()
                 favoriteUserViewModel.deleteUser(
                     requireContext().applicationContext,
                     favoriteUser.id
@@ -71,6 +73,7 @@ class UserDetailFragment : Fragment() {
                 isFavoriteUser = !isFavoriteUser
                 setIconButton(isFavoriteUser)
             } else {
+                Toast.makeText(requireContext(), getString(R.string.add_messages,favoriteUser.login), Toast.LENGTH_SHORT).show()
                 favoriteUserViewModel.insertUser(requireContext().applicationContext, favoriteUser)
                 isFavoriteUser = !isFavoriteUser
                 setIconButton(isFavoriteUser)

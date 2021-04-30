@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -49,7 +50,7 @@ class FavoriteFragment : Fragment() {
         favoriteUserViewModel.listFavoriteUser.observe(viewLifecycleOwner, { listDetailUser ->
             if(listDetailUser.isEmpty()){
                 binding.imgMessages.visibility = View.VISIBLE
-                binding.tvMessages.text = getString(R.string.null_data_message)
+                binding.tvMessages.text = getString(R.string.no_data)
                 binding.tvMessages.visibility = View.VISIBLE
                 binding.rvFavoriteUser.visibility = View.GONE
             }else{
@@ -70,6 +71,7 @@ class FavoriteFragment : Fragment() {
                 val selectedItems = favoriteUserAdapter.getSelectedItem(viewHolder.adapterPosition)
                 favoriteUserViewModel.deleteUser(requireActivity(), selectedItems.id)
                 favoriteUserAdapter.deleteSelectedItem(viewHolder.adapterPosition)
+                Toast.makeText(requireContext(), getString(R.string.delete_messages,selectedItems.login), Toast.LENGTH_SHORT).show()
             }
         }
 

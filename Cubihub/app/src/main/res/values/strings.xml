@@ -34,4 +34,7 @@
     <string name="choose_language">Choose Language</string>
     <string name="header_detail_user">Detail User</string>
     <string name="button_favorite">Button Favorite</string>
+    <string name="delete_messages">Remove %1$s from favorite</string>
+    <string name="add_messages">Add %1$s to favorite</string>
+
 </resources>
