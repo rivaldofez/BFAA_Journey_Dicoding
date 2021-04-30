@@ -36,4 +36,6 @@
     <string name="button_favorite">Button Favorite</string>
     <string name="delete_messages">Menghapus %1$s dari favorite</string>
     <string name="add_messages">Menambahkan %1$s ke favorit</string>
+    <string name="appwidget_text">User Favorit</string>
+    <string name="add_widget">Tambahkan Widget</string>
 </resources>
