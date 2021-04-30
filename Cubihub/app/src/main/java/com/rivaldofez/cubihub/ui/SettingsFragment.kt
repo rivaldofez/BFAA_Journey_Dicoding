@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.rivaldofez.cubihub.R
 import com.rivaldofez.cubihub.database.SettingsPreference
 import com.rivaldofez.cubihub.databinding.FragmentSettingsBinding
 import com.rivaldofez.cubihub.service.AlarmReceiver
@@ -16,6 +17,7 @@ class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
     private lateinit var alarmReceiver: AlarmReceiver
     private lateinit var settingsPreference: SettingsPreference
+    private val time = "09:00"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,9 +37,9 @@ class SettingsFragment : Fragment() {
 
         binding.swAlarm.isChecked = settingsPreference.getSettings()
         if(settingsPreference.getSettings())
-            binding.tvAlarmStatus.text = "Alarm Aktif"
+            binding.tvAlarmStatus.text = getString(R.string.alarm_status_active)
         else
-            binding.tvAlarmStatus.text = "Alarm Mati"
+            binding.tvAlarmStatus.text = getString(R.string.alarm_status_inactive)
 
 
         binding.clChooseLanguage.setOnClickListener({
@@ -47,14 +49,13 @@ class SettingsFragment : Fragment() {
         })
 
         binding.swAlarm.setOnCheckedChangeListener({_, isChecked->
-            val time = "12:49"
             if(isChecked){
-                alarmReceiver.setRepeatingAlarm(requireContext(), time, "Waktu untuk kembali ke aplikasi")
-                binding.tvAlarmStatus.text = "Alarm Aktif"
+                alarmReceiver.setRepeatingAlarm(requireContext(), time, getString(R.string.alarm_notification_message))
+                binding.tvAlarmStatus.text = getString(R.string.alarm_status_active)
                 settingsPreference.setSettings(true)
             }else{
-                alarmReceiver.cancelAlarm(requireContext(), AlarmReceiver.TYPE_REPEATING)
-                binding.tvAlarmStatus.text = "Alarm Mati"
+                alarmReceiver.cancelAlarm(requireContext())
+                binding.tvAlarmStatus.text = getString(R.string.alarm_status_inactive)
                 settingsPreference.setSettings(false)
             }
         })

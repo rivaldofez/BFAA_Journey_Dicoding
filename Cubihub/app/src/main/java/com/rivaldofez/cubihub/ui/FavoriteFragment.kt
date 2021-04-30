@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.rivaldofez.cubihub.R
 import com.rivaldofez.cubihub.adapter.FavoriteAdapter
 import com.rivaldofez.cubihub.databinding.FragmentFavoriteBinding
 import com.rivaldofez.cubihub.listener.OnFavoriteClickListener
@@ -48,7 +49,7 @@ class FavoriteFragment : Fragment() {
         favoriteUserViewModel.listFavoriteUser.observe(viewLifecycleOwner, { listDetailUser ->
             if(listDetailUser.isEmpty()){
                 binding.imgMessages.visibility = View.VISIBLE
-                binding.tvMessages.text = "Data tidak ditemukan, coba kata kunci lain"
+                binding.tvMessages.text = getString(R.string.null_data_message)
                 binding.tvMessages.visibility = View.VISIBLE
                 binding.rvFavoriteUser.visibility = View.GONE
             }else{

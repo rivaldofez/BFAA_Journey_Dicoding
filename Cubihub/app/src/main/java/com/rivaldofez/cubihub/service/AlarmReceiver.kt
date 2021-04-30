@@ -21,29 +21,23 @@ import java.util.*
 class AlarmReceiver : BroadcastReceiver() {
 
     companion object {
-        const val TYPE_REPEATING = "RepeatingAlarm"
+        const val TITLE = "Alarm Cubihub"
         const val EXTRA_MESSAGE = "message"
-        private const val ID_REPEATING = 101
+        private const val ALARM_ID = 10
         private const val TIME_FORMAT = "HH:mm"
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         val message = intent.getStringExtra(EXTRA_MESSAGE)
-        val title = TYPE_REPEATING
-        val notifId = ID_REPEATING
-        showToast(context, title, message)
+        Toast.makeText(context, "$TITLE : $message", Toast.LENGTH_LONG).show()
         if (message != null) {
-            showAlarmNotification(context, title, message, notifId)
+            showAlarmNotification(context, message)
         }
     }
 
-    private fun showToast(context: Context, title: String, message: String?) {
-        Toast.makeText(context, "$title : $message", Toast.LENGTH_LONG).show()
-    }
-
-    private fun isDateInvalid(date: String, format: String): Boolean {
+    private fun isDateInvalid(date: String): Boolean {
         return try {
-            val df = SimpleDateFormat(format, Locale.getDefault())
+            val df = SimpleDateFormat(TIME_FORMAT, Locale.getDefault())
             df.isLenient = false
             df.parse(date)
             false
@@ -52,7 +46,7 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun showAlarmNotification(context: Context, title: String, message: String, notifId: Int) {
+    private fun showAlarmNotification(context: Context, message: String) {
         val notifDetailIntent = Intent(context.applicationContext, MainActivity::class.java)
         notifDetailIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         val pendingIntent = PendingIntent.getActivity(context.applicationContext,0,notifDetailIntent,0)
@@ -63,7 +57,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_alarm_on)
-            .setContentTitle(title)
+            .setContentTitle(TITLE)
             .setContentIntent(pendingIntent)
             .setContentText(message)
             .setColor(ContextCompat.getColor(context, android.R.color.transparent))
@@ -81,11 +75,11 @@ class AlarmReceiver : BroadcastReceiver() {
         }
 
         val notification = builder.build()
-        notificationManagerCompat.notify(notifId, notification)
+        notificationManagerCompat.notify(ALARM_ID, notification)
     }
 
     fun setRepeatingAlarm(context: Context, time: String, message: String) {
-        if (isDateInvalid(time, TIME_FORMAT)) return
+        if (isDateInvalid(time)) return
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java)
@@ -98,20 +92,18 @@ class AlarmReceiver : BroadcastReceiver() {
         calendar.set(Calendar.MINUTE, Integer.parseInt(timeArray[1]))
         calendar.set(Calendar.SECOND, 0)
 
-        val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, intent, 0)
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
-        Toast.makeText(context, "Alarm berhasil diaktfikan", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.alarm_active_message), Toast.LENGTH_SHORT).show()
     }
 
-    fun cancelAlarm(context: Context, type: String) {
+    fun cancelAlarm(context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java)
-        val requestCode = ID_REPEATING
+        val requestCode = ALARM_ID
         val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0)
         pendingIntent.cancel()
         alarmManager.cancel(pendingIntent)
-        Toast.makeText(context, "Alarm berhasil dimatikan", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.alarm_inactive_message), Toast.LENGTH_SHORT).show()
     }
-
-
 }

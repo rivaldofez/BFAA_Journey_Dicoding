@@ -24,6 +24,7 @@ class FavoriteUserViewModel: ViewModel() {
             val cursor: Cursor? = context.contentResolver.query(CONTENT_URI, null,null, null, null)
             if (cursor != null) {
                 listFavoriteUser.postValue(cursor.toListUser())
+                cursor.close()
             }
             showProgress.postValue(false)
         }
@@ -40,6 +41,7 @@ class FavoriteUserViewModel: ViewModel() {
                 }else{
                     isFavoriteUser.postValue(false)
                 }
+                cursor.close()
             }
         }
         showProgress.postValue(false)

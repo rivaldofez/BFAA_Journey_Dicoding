@@ -62,17 +62,20 @@ class UserDetailFragment : Fragment() {
             setIconButton(isFavoriteUser)
         })
 
-        binding.btnFavorite.setOnClickListener({
-            if(isFavoriteUser){
-                favoriteUserViewModel.deleteUser(requireContext().applicationContext, favoriteUser.id)
-                isFavoriteUser=!isFavoriteUser
+        binding.btnFavorite.setOnClickListener {
+            if (isFavoriteUser) {
+                favoriteUserViewModel.deleteUser(
+                    requireContext().applicationContext,
+                    favoriteUser.id
+                )
+                isFavoriteUser = !isFavoriteUser
                 setIconButton(isFavoriteUser)
-            }else{
-                favoriteUserViewModel.insertUser(requireContext().applicationContext,favoriteUser)
-                isFavoriteUser=!isFavoriteUser
+            } else {
+                favoriteUserViewModel.insertUser(requireContext().applicationContext, favoriteUser)
+                isFavoriteUser = !isFavoriteUser
                 setIconButton(isFavoriteUser)
             }
-        })
+        }
 
         detailUserViewModel.showProgress.observe(viewLifecycleOwner,{
             if (it)

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Cubihub</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="followers">Followers</string>
     <string name="repository">Repository</string>
     <string name="following">Following</string>
@@ -11,9 +10,28 @@
     <string name="option_language">Change Language</string>
     <string name="nav_user">Users</string>
     <string name="nav_about">Profile</string>
-    <string name="search_url">https://api.github.com/search/users?q=%1$s</string>
-    <string name="follow_url">"https://api.github.com/users/%1$s/%2$s"</string>
-    <string name="detail_user_url">https://api.github.com/users/%1$s</string>
-    <string name="token">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</string>
     <string name="nulldata">User doesnt set data</string>
+    <string name="alarm_active_message">Alarm Actived</string>
+    <string name="alarm_inactive_message">Alarm Diactived</string>
+    <string name="null_data_message">Data not found, try with another keyword</string>
+    <string name="alarm_status_active">Alarm Active</string>
+    <string name="alarm_status_inactive">Alarm Inactive</string>
+    <string name="alarm_notification_message">Back to Cubihub, see interesting info</string>
+    <string name="error_message_process">Error occured, check connection and try later</string>
+    <string name="data_not_found">Data not found</string>
+    <string name="no_data">No data in list, add favorite user first</string>
+    <string name="avatar_image_user">avatar image user</string>
+    <string name="icon">icon</string>
+    <string name="logo">logo</string>
+    <string name="apps_urls">www.cubihub.org</string>
+    <string name="favourite_list">Favourite List</string>
+    <string name="image_message">Image Message</string>
+    <string name="back">Back</string>
+    <string name="settings_app">Settings</string>
+    <string name="alarm_icon">Alarm Icon</string>
+    <string name="alarm_clock">Alarm 09:00AM</string>
+    <string name="language_icon">Icon Language</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="header_detail_user">Detail User</string>
+    <string name="button_favorite">Button Favorite</string>
 </resources>

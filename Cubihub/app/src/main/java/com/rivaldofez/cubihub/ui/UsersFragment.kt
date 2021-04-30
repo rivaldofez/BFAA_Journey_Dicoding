@@ -57,7 +57,7 @@ class UsersFragment : Fragment() {
         searchUserViewModel.listSearchedUser.observe(viewLifecycleOwner, { userList ->
             if(userList.items.isEmpty()){
                 binding.imgMessages.visibility = View.VISIBLE
-                binding.tvMessages.text = "Data tidak ditemukan, coba kata kunci lain"
+                binding.tvMessages.text = getString(R.string.null_data_message)
                 binding.tvMessages.visibility = View.VISIBLE
                 binding.rvUsers.visibility = View.GONE
             }else{
@@ -124,7 +124,7 @@ class UsersFragment : Fragment() {
         if(state){
             binding.tvMessages.visibility = View.VISIBLE
             binding.imgMessages.visibility = View.VISIBLE
-            binding.tvMessages.text = "Terjadi kesalahan, mohon periksa kembali koneksi"
+            binding.tvMessages.text = getString(R.string.error_message_process)
         }else{
             binding.tvMessages.visibility = View.GONE
             binding.imgMessages.visibility = View.GONE

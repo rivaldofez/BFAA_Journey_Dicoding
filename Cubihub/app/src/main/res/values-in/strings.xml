@@ -1,19 +1,37 @@
 <resources>
     <string name="app_name">Cubihub</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="followers">Pengikut</string>
-    <string name="repository">Repository</string>
-    <string name="following">Mengikut</string>
+    <string name="repository">Repositori</string>
+    <string name="following">Mengikuti</string>
     <string name="about_me">Tentang Saya</string>
     <string name="profile_name">Rivaldo Fernandes</string>
     <string name="profile_email">rivaldofez@gmail.com</string>
-    <string name="search_hint">Masukan Kata Kunci..</string>
+    <string name="search_hint">Masukkan kata kunci..</string>
     <string name="option_language">Ubah Bahasa</string>
     <string name="nav_user">Pengguna</string>
     <string name="nav_about">Profil</string>
-    <string name="search_url">https://api.github.com/search/users?q=%1$s</string>
-    <string name="follow_url">"https://api.github.com/users/%1$s/%2$s"</string>
-    <string name="detail_user_url">https://api.github.com/users/%1$s</string>
-    <string name="token">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</string>
-    <string name="nulldata">Pengguna tidak mengisi data</string>
+    <string name="nulldata">Data tidak disetetl</string>
+    <string name="alarm_active_message">Alarm Berhasil Diaktifkan</string>
+    <string name="alarm_inactive_message">Alarm Behasil Dimatikan</string>
+    <string name="null_data_message">Data tidak ditemukan, coba dengan kata kunci lain</string>
+    <string name="alarm_status_active">Alarm Aktif</string>
+    <string name="alarm_status_inactive">Alarm Mati</string>
+    <string name="alarm_notification_message">Pergi ke Cubihub, lihat info menarik</string>
+    <string name="error_message_process">Terjadi kesalahan, cek kembali koneksi</string>
+    <string name="data_not_found">Data tidak ditemukan</string>
+    <string name="no_data">Tidak ada data di list, tambahkan dahulu pengguna favorit</string>
+    <string name="avatar_image_user">Gambar avatar user</string>
+    <string name="icon">ikon</string>
+    <string name="logo">logo</string>
+    <string name="apps_urls">www.cubihub.org</string>
+    <string name="favourite_list">List Favorit</string>
+    <string name="image_message">Pesan Gambar</string>
+    <string name="back">Kembali</string>
+    <string name="settings_app">Pengatura</string>
+    <string name="alarm_icon">Ikon Pengingat</string>
+    <string name="alarm_clock">Alarm 09:00AM</string>
+    <string name="language_icon">Icon Language</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="header_detail_user">Detail User</string>
+    <string name="button_favorite">Button Favorite</string>
 </resources>

@@ -21,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_back"
+            android:contentDescription="@string/back"
             app:borderWidth="0dp"
             app:elevation="0dp"
             app:tint="@color/white" />
@@ -30,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="Detail User"
+            android:text="@string/header_detail_user"
             android:textColor="@color/white"
             android:textSize="@dimen/_16sdp" />
     </androidx.appcompat.widget.Toolbar>
@@ -262,6 +263,7 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_20sdp"
             android:src="@drawable/ic_favorite_unfilled"
+            android:contentDescription="@string/button_favorite"
             app:borderWidth="0dp"
             app:tint="@android:color/white" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -60,19 +60,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar_users">
+        app:layout_constraintTop_toBottomOf="@+id/appbar_users"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/img_messages"
             android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/null_data_message"
             android:src="@drawable/add_data" />
 
         <TextView
             android:id="@+id/tv_messages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Masukan Kata Kunci"
+            android:text="@string/null_data_message"
             android:layout_marginTop="@dimen/_10sdp"
             android:textAlignment="center"
             android:textColor="@color/black"
