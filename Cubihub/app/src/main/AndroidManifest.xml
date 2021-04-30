@@ -21,6 +21,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cubihub"
         android:usesCleartextTraffic="true">
+        <receiver android:name=".BannerWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/banner_widget_info" />
+        </receiver>
+
         <provider
             android:name=".provider.UserProvider"
             android:authorities="com.rivaldofez.cubihub"
@@ -33,6 +43,7 @@
             android:name=".service.AlarmReceiver"
             android:enabled="true"
             android:exported="true" />
+
         <activity
             android:name=".ui.SplashActivity"
             android:theme="@style/Theme.Cubihub.Splash">
@@ -44,12 +55,16 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:parentActivityName=".ui.MainActivity">
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
         </activity>
+
+        <service
+            android:name="com.rivaldofez.cubihub.service.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>

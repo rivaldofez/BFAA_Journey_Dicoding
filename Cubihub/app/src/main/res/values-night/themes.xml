@@ -24,4 +24,9 @@
         <item name="cornerSize">@dimen/_10sdp</item>
         <item name="color">@color/white</item>
     </style>
+
+    <style name="ThemeOverlay.Cubihub.AppWidgetContainer" parent="">
+        <item name="appWidgetBackgroundColor">@color/light_blue_900</item>
+        <item name="appWidgetTextColor">@color/light_blue_200</item>
+    </style>
 </resources>
