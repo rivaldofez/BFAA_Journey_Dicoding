@@ -3,7 +3,7 @@ package com.rivaldofez.consumerapp.adapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.rivaldofez.consumerapp.FollowFragment
+import com.rivaldofez.consumerapp.ui.FollowFragment
 
 class DetailPagerAdapter (activity: AppCompatActivity) : FragmentStateAdapter(activity) {
     companion object{

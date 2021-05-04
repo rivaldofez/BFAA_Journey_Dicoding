@@ -1,4 +1,4 @@
-package com.rivaldofez.consumerapp
+package com.rivaldofez.consumerapp.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
+import com.rivaldofez.consumerapp.R
 import com.rivaldofez.consumerapp.adapter.DetailPagerAdapter
 import com.rivaldofez.consumerapp.databinding.FragmentUserDetailBinding
 import com.rivaldofez.consumerapp.viewmodel.DetailUserViewModel
@@ -21,8 +22,8 @@ class UserDetailFragment : Fragment() {
     companion object {
         @StringRes
         val TAB_TITLES = intArrayOf(
-            R.string.followers,
-            R.string.following
+                R.string.followers,
+                R.string.following
         )
     }
 

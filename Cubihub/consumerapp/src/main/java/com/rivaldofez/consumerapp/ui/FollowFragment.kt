@@ -1,4 +1,4 @@
-package com.rivaldofez.consumerapp
+package com.rivaldofez.consumerapp.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -105,4 +105,9 @@ class FavoriteFragment : Fragment() {
             binding.shimmerLoading.visibility = View.GONE
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        favoriteUserViewModel.getFavoriteUsers(requireActivity())
+    }
 }

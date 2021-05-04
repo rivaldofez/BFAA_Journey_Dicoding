@@ -1,16 +1,17 @@
-package com.rivaldofez.consumerapp
+package com.rivaldofez.consumerapp.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.rivaldofez.consumerapp.R
 import com.rivaldofez.consumerapp.adapter.FavoriteAdapter
 import com.rivaldofez.consumerapp.databinding.FragmentFavoriteBinding
 import com.rivaldofez.consumerapp.listener.OnFavoriteClickListener
@@ -49,7 +50,7 @@ class FavoriteFragment : Fragment() {
         favoriteUserViewModel.listFavoriteUser.observe(viewLifecycleOwner, { listDetailUser ->
             if(listDetailUser.isEmpty()){
                 binding.imgMessages.visibility = View.VISIBLE
-                binding.tvMessages.text = "Data tidak ditemukan, coba kata kunci lain"
+                binding.tvMessages.text = getString(R.string.no_data)
                 binding.tvMessages.visibility = View.VISIBLE
                 binding.rvFavoriteUser.visibility = View.GONE
             }else{
@@ -60,19 +61,17 @@ class FavoriteFragment : Fragment() {
             }
         })
 
-        favoriteUserViewModel.showProgress.observe(viewLifecycleOwner, { progressState->
+        favoriteUserViewModel.showProgress.observe(viewLifecycleOwner, { progressState ->
             this.progressState = progressState
             showProgress(progressState)
         })
 
-        val onItemSwiped = object : OnSwipeDeleteCallback(
-            0,
-            ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)
-        ){
+        val onItemSwiped = object : OnSwipeDeleteCallback( 0, ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val selectedItems = favoriteUserAdapter.getSelectedItem(viewHolder.adapterPosition)
                 favoriteUserViewModel.deleteUser(requireActivity(), selectedItems.id)
                 favoriteUserAdapter.deleteSelectedItem(viewHolder.adapterPosition)
+                Toast.makeText(requireContext(), getString(R.string.delete_messages,selectedItems.login), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -83,11 +82,9 @@ class FavoriteFragment : Fragment() {
     private fun action() {
         favoriteUserAdapter.setOnClickItemListener(object  : OnFavoriteClickListener {
             override fun onFavoriteDetail(item: View, favoriteUser: DetailUser) {
-                favoriteUser.login?.let { Log.d("Teston", it) }
-
                 val gotoDetailFragment = favoriteUser.login?.let {
                     FavoriteFragmentDirections.actionNavigationFavoriteToUserDetailFragment(
-                        it
+                            it
                     )
                 }
                 gotoDetailFragment?.let { findNavController().navigate(it) }
@@ -95,7 +92,7 @@ class FavoriteFragment : Fragment() {
         })
     }
 
-    private fun showProgress(state: Boolean){
+    fun showProgress(state: Boolean){
         if(state){
             binding.tvMessages.visibility = View.GONE
             binding.imgMessages.visibility = View.GONE
@@ -107,5 +104,10 @@ class FavoriteFragment : Fragment() {
             binding.shimmerLoading.stopShimmerAnimation()
             binding.shimmerLoading.visibility = View.GONE
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        favoriteUserViewModel.getFavoriteUsers(requireActivity())
     }
 }
